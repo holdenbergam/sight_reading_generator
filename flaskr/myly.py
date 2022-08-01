@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+'''from __future__ import unicode_literals
 from __future__ import division
 
 import random
@@ -792,3 +792,4 @@ musxml.create_measure(divs=1)
 musxml.new_note('C', 4, 'whole', 4)
 xml = musxml.musicxml()
 xml.write('test.xml')
+'''

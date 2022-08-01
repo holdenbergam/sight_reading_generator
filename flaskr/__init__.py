@@ -5,7 +5,8 @@ from .processing import make_random_music
 
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__, static_url_path="", static_folder="static",instance_relative_config=True)
+    #app.config["CACHE_TYPE"] = "null"
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
@@ -40,6 +41,8 @@ def create_app(test_config=None):
             time = request.form['time']
             key = request.form['key']
             instrument = request.form['instrument']
+
+            make_random_music(time,key,save_to='static/image.pdf')
 
             #music = make_random_music(time, key, instrument)
             #image = make_image(music)

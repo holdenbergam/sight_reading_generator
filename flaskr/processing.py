@@ -6,7 +6,26 @@ def make_random_music(time_signature, key_signature, save_to='im/image.pdf', num
     #return [[(34, 1/2), (37, 1/4), 33, ...], [(23, 1), ...] , ...]
 
     #41, 43, 45, 47, 48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, respectively
-    pitch = ['F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5']
+
+    #NATURAL ACCIDENTALS TO BE REMOVED
+    if key_signature == "C":
+        pitch = ['F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5']
+    if key_signature == "F":
+        pitch = ['F3', 'G3', 'A3', 'B-3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B-4', 'B4', 'C5', 'D5', 'E5', 'F5']
+    if key_signature == "bFlat":
+        pitch = ['F3', 'G3', 'A3', 'B-3', 'B3', 'C4', 'D4', 'E-4', 'E4', 'F4', 'G4', 'A4', 'B-4', 'B4', 'C5', 'D5', 'E-5', 'E5', 'F5']
+    if key_signature == "eFlat":
+        pitch = ['F3', 'G3', 'A-3', 'A3', 'B-3', 'B3', 'C4', 'D4', 'E-4', 'E4', 'F4', 'G4', 'A-4', 'A4', 'B-4', 'B4', 'C5', 'D5', 'E-5', 'E5', 'F5']
+    if key_signature == "aFlat":
+        pitch = ['F3', 'G3', 'A-3', 'A3', 'B-3', 'B3', 'C4', 'D-4', 'D4', 'E-4', 'E4', 'F4', 'G4', 'A-4', 'A4', 'B-4', 'B4', 'C5', 'D-5', 'D5', 'E-5', 'E5', 'F5']
+    if key_signature == "G":
+        pitch = ['F3', 'F#3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'F#4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'F#5']
+    if key_signature == "D":
+        pitch = ['F3', 'F#3', 'G3', 'A3', 'B3', 'C4', 'C#4', 'D4', 'E4', 'F4', 'F#4', 'G4', 'A4', 'B4', 'C5', 'C#5', 'D5', 'E5', 'F5', 'F#5']
+    if key_signature == "A":
+        pitch = ['F3', 'F#3', 'G3', 'G#3', 'A3', 'B3', 'C4', 'C#4', 'D4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'B4', 'C5', 'C#5', 'D5', 'E5', 'F5', 'F#5']
+    if key_signature == "E":
+        pitch = ['F3', 'F#3', 'G3', 'G#3', 'A3', 'B3', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'B4', 'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5']
     length = []
     #whole =
     #half = 2

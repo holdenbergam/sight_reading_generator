@@ -2,7 +2,7 @@ import random
 #from myly import CreateMusicXML
 from music21 import *
 
-def make_random_music(time_signature, key_signature, save_to='im/image.pdf', num_measures=64):
+def make_random_music(time_signature, key_signature, save_to='im/image.pdf', num_measures=32):
     #return [[(34, 1/2), (37, 1/4), 33, ...], [(23, 1), ...] , ...]
 
     #41, 43, 45, 47, 48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, respectively
@@ -64,9 +64,11 @@ def make_random_music(time_signature, key_signature, save_to='im/image.pdf', num
     for i in set:
         #d.quarterLength = i[1]
         n = note.Note(i[0], type=i[1])
+        r = note.Rest()
+        options = [n, n, n, r]
         #quarterLength = i[1]
         #n.duration = duration.Duration(float(quarterLength))
-        s.append(n)
+        s.append(random.choice(options))
         #WHAT DO I DO HERE
     #s.show()
 

@@ -2,7 +2,7 @@ import random
 #from myly import CreateMusicXML
 from music21 import *
 
-def make_random_music(time_signature, key_signature, save_to='im/image.pdf', num_measures=32):
+def make_random_music(time_signature, key_signature, clef_, measures, instrument, save_to='im/image.pdf'):
     #return [[(34, 1/2), (37, 1/4), 33, ...], [(23, 1), ...] , ...]
 
     #41, 43, 45, 47, 48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, respectively
@@ -30,7 +30,7 @@ def make_random_music(time_signature, key_signature, save_to='im/image.pdf', num
     #whole =
     #half = 2
     #quarter = 1
-    for i in range(num_measures+3):
+    for i in range(int(measures)):
         options = ['whole', 'half', 'quarter']
         choice = random.choice(options)
         length.append(choice)
@@ -47,23 +47,53 @@ def make_random_music(time_signature, key_signature, save_to='im/image.pdf', num
             optionfour = ['quarter', 'quarter', 'quarter']
             optionfive = ['half', 'quarter']
             length.append(random.choice([optionthree, optionfour, optionfive])[0])
-
+    '''elif time_signature == '3/4':
+        for i in range(int(measures)):
+            options = ['half', 'quarter']
+            choice = random.choice(options)
+            length.append(choice)
+            if choice == 'half':
+                length.append('quarter')
+            elif choice == 'quarter':
+                length.append('half')
+    elif time_signature == '2/4':
+        for i in range(int(measures)):
+            options = ['half', 'quarter']
+            choice = random.choice(options)
+            length.append(choice)
+            if choice == 'half':
+                continue
+            elif choice == 'quarter':
+                length.append('quarter')'''
     set = []
     for i in length:
         set_approach = [random.choice(pitch), i]
         set.append(set_approach)
     print(set)
 
+
+
     s = stream.Stream()
+    s.insert(0, metadata.Metadata())
+    s.metadata.title = instrument + ' Sample'
+    s.metadata.composer = ' '
     d = duration.Duration()
             #Problem showed up when I changed this command from a direct string to this mess. Fix.
     ts = meter.TimeSignature(time_signature)
     s.append(ts)
     k = key.Key(key_signature)
     s.append(k)
+    if clef_ == "treble":
+        c = clef.TrebleClef()
+        s.append(c)
+    elif clef_ == "bass":
+        c = clef.BassClef()
+        s.append(c)
+
+
     for i in set:
-        #d.quarterLength = i[1]
         n = note.Note(i[0], type=i[1])
+
         r = note.Rest()
         options = [n, n, n, r]
         #quarterLength = i[1]
@@ -82,4 +112,4 @@ def make_image(music):
 
 if __name__=='__main__':
     print('Hello World')
-    make_random_music('4/4', 'F')
+    make_random_music('4/4', 'F', 'Treble', '16')

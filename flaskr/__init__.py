@@ -41,13 +41,15 @@ def create_app(test_config=None):
             time = request.form['time']
             key = request.form['key']
             instrument = request.form['instrument']
+            clef = request.form['clef']
+            measures = request.form['measures']
 
-            make_random_music(time,key,save_to='static/image.pdf')
+            make_random_music(time,key,clef,measures,instrument,save_to='static/image.pdf')
 
             #music = make_random_music(time, key, instrument)
             #image = make_image(music)
 
-            return render_template('result.html', time=time, key=key, instrument=instrument)
+            return render_template('result.html', time=time, key=key, clef=clef, measures=measures, instrument=instrument)
         elif request.method == 'GET':
             return 'A GET request was made'
         else:

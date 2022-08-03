@@ -11,7 +11,7 @@
 
           <label for="instrument">Choose an instrument</label>
           <select id="instrument" name="instrument">
-          <option value="frenchhorn">French Horn</option>
+          <option value="French Horn">French Horn</option>
           </select>
 
           <br><br>
@@ -39,9 +39,29 @@
           <option value="E"></option>
           </select>
 
+<br><br>
+
+
+
+
+<form action="/action_page.php">
+          <label for="clef">Choose a clef</label>
+          <select id="clef" name="clef">
+          <option value="treble">Treble</option>
+          <option value="bass">Bass</option>
+        </select>
           <br><br>
 
-
+<form action="/action_page.php">
+          <label for="measures">Choose an estimated number of measures to generate</label>
+          <select id="measures" name="measures">
+          <option value="4">4</option>
+          <option value="8">8</option>
+          <option value="16">16</option>
+          <option value="32">32</option>
+          <option value="64">64</option>
+        </select>
+          <br><br>
 
           <input type="submit" value="Submit">
         </form>

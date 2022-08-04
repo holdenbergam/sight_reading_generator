@@ -1,6 +1,150 @@
 import random
 #from myly import CreateMusicXML
 from music21 import *
+from IPython import embed
+
+def create_range(instrument, key_signature):
+
+    if instrument == "French Horn":
+        k = key.Key(key_signature).transpose(-5)
+        range_ = ['F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5']
+        if key_signature == "bFlat":
+            range_.extend(['B-3', 'B-4'])
+        elif key_signature == "eFlat":
+            range_.extend(['B-3', 'B-4', 'E-4', 'E-5'])
+        elif key_signature == "aFlat":
+            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4'])
+        elif key_signature == "dFlat":
+            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5'])
+        elif key_signature == "gFlat":
+            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5', 'G-3', 'G-4'])
+        elif key_signature == "E":
+            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'D#4', 'D#5', 'A#3', 'A#4'])
+        elif key_signature == "A":
+            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'D#4', 'D#5'])
+        elif key_signature == "D":
+            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4'])
+        elif key_signature == "G":
+            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5'])
+        elif key_signature == "C":
+            range_.extend(['F#3', 'F#4', 'F#5'])
+    elif instrument == "Trumpet":
+        k = key.Key(key_signature).transpose(2)
+        range_ = ['G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5']
+        if key_signature == "eFlat":
+            range_.extend(['B-3', 'B-4'])
+        elif key_signature == "aFlat":
+            range_.extend(['B-3', 'B-4', 'E-4', 'E-5'])
+        elif key_signature == "dFlat":
+            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4'])
+        elif key_signature == "gFlat":
+            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5'])
+        elif key_signature == "E":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'E#4', 'E#5'])
+        elif key_signature == "A":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4'])
+        elif key_signature == "D":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5'])
+        elif key_signature == "G":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5'])
+        elif key_signature == "C":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5'])
+        elif key_signature == "F":
+            range_.extend(['F#4', 'F#5'])
+    elif instrument == "Alto Saxophone":
+        k = key.Key(key_signature).transpose(9)
+        range_ = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6']
+        if key_signature == "aFlat":
+            range_.extend(['B-4', 'B-5'])
+        elif key_signature == "dFlat":
+            range_.extend(['B-4', 'B-5', 'E-4', 'E-5'])
+        elif key_signature == "gFlat":
+            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-4', 'A-5'])
+        elif key_signature == "E":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'A#4', 'A#5', 'E#4', 'E#5', 'B#4', 'B#5'])
+        elif key_signature == "A":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'A#4', 'A#5', 'E#4', 'E#5'])
+        elif key_signature == "D":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'A#4', 'A#5'])
+        elif key_signature == "G":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5'])
+        elif key_signature == "C":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5'])
+        elif key_signature == "F":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'C#6'])
+        elif key_signature == "bFlat":
+            range_.extend(['F#3', 'F#4', 'F#5'])
+    elif instrument == "Clarinet":
+        k = key.Key(key_signature).transpose(2)
+        range_ = ['E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6']
+        if key_signature == "eFlat":
+            range_.extend(['B-3', 'B-4', 'B-5'])
+        elif key_signature == "aFlat":
+            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'E-6'])
+        elif key_signature == "dFlat":
+            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'E-6', 'A-3', 'A-4', 'A-5'])
+        elif key_signature == "gFlat":
+            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'E-6', 'A-3', 'A-4', 'A-5', 'D-4', 'D-5', 'D-6'])
+        elif key_signature == "E":
+            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#3', 'A#4', 'A#5', 'E#3', 'E#4', 'E#5', 'E#6'])
+        elif key_signature == "A":
+            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#3', 'A#4', 'A#5'])
+        elif key_signature == "D":
+            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6'])
+        elif key_signature == "G":
+            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5'])
+        elif key_signature == "C":
+            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6'])
+        elif key_signature == "F":
+            range_.extend(['F#3', 'F#4', 'F#5'])
+    elif instrument == "Oboe":
+        k = key.Key(key_signature)#.transpose(2)
+        range_ = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6']
+        if key_signature == "F":
+            range_.extend(['B-4', 'B-5'])
+        elif key_signature == "bFlat":
+            range_.extend(['B-4', 'B-5', 'E-4', 'E-5'])
+        elif key_signature == "eFlat":
+            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5'])
+        elif key_signature == "aFlat":
+            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5', 'D-4', 'D-5'])
+        elif key_signature == "dFlat":
+            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5', 'D-4', 'D-5', 'G-4', 'G-5'])
+        elif key_signature == "gFlat":
+            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5', 'D-4', 'D-5', 'G-4', 'G-5', 'C-4', 'C-5', 'C-6'])
+        elif key_signature == "E":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5'])
+        elif key_signature == "A":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5'])
+        elif key_signature == "D":
+            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'C#6'])
+        elif key_signature == "G":
+            range_.extend(['F#4', 'F#5'])
+    elif instrument == "Flute":
+        k = key.Key(key_signature)#.transpose(2)
+        range_ = ['B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6', 'G6', 'A6', 'B6']
+        if key_signature == "F":
+            range_.extend(['B-4', 'B-5', 'B-6'])
+        elif key_signature == "bFlat":
+            range_.extend(['B-4', 'B-5', 'B-6', 'E-5', 'E-6'])
+        elif key_signature == "eFlat":
+            range_.extend(['B-4', 'B-5', 'B-6', 'E-5', 'E-6', 'A-5', 'A-6'])
+        elif key_signature == "aFlat":
+            range_.extend(['B-4', 'B-5', 'B-6', 'E-5', 'E-6', 'A-5', 'A-6', 'D-5', 'D-6'])
+        elif key_signature == "dFlat":
+            range_.extend(['B-4', 'B-5', 'B-6', 'E-5', 'E-6', 'A-5', 'A-6', 'D-5', 'D-6', 'G-5', 'G-6'])
+        elif key_signature == "gFlat":
+            range_.extend(['B-4', 'B-5', 'B-6', 'E-5', 'E-6', 'A-5', 'A-6', 'D-5', 'D-6', 'G-5', 'G-6', 'C-5', 'C-6'])
+        elif key_signature == "E":
+            range_.extend(['F#5', 'F#6', 'C#5', 'C#6', 'G#5', 'G#6', 'D#5', 'D#6'])
+        elif key_signature == "A":
+            range_.extend(['F#5', 'F#6', 'C#5', 'C#6', 'G#5', 'G#6'])
+        elif key_signature == "D":
+            range_.extend(['F#5', 'F#6', 'C#5', 'C#6'])
+        elif key_signature == "G":
+            range_.extend(['F#4', 'F#5'])
+    return range_, k
+
 
 def make_random_music(time_signature, key_signature, clef_, measures, instrument, save_to='im/image.pdf'):
     #return [[(34, 1/2), (37, 1/4), 33, ...], [(23, 1), ...] , ...]
@@ -8,24 +152,9 @@ def make_random_music(time_signature, key_signature, clef_, measures, instrument
     #41, 43, 45, 47, 48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, respectively
 
     #NATURAL ACCIDENTALS TO BE REMOVED
-    if key_signature == "C":
-        pitch = ['F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5']
-    if key_signature == "F":
-        pitch = ['F3', 'G3', 'A3', 'B-3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B-4', 'B4', 'C5', 'D5', 'E5', 'F5']
-    if key_signature == "bFlat":
-        pitch = ['F3', 'G3', 'A3', 'B-3', 'B3', 'C4', 'D4', 'E-4', 'E4', 'F4', 'G4', 'A4', 'B-4', 'B4', 'C5', 'D5', 'E-5', 'E5', 'F5']
-    if key_signature == "eFlat":
-        pitch = ['F3', 'G3', 'A-3', 'A3', 'B-3', 'B3', 'C4', 'D4', 'E-4', 'E4', 'F4', 'G4', 'A-4', 'A4', 'B-4', 'B4', 'C5', 'D5', 'E-5', 'E5', 'F5']
-    if key_signature == "aFlat":
-        pitch = ['F3', 'G3', 'A-3', 'A3', 'B-3', 'B3', 'C4', 'D-4', 'D4', 'E-4', 'E4', 'F4', 'G4', 'A-4', 'A4', 'B-4', 'B4', 'C5', 'D-5', 'D5', 'E-5', 'E5', 'F5']
-    if key_signature == "G":
-        pitch = ['F3', 'F#3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'F#4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'F#5']
-    if key_signature == "D":
-        pitch = ['F3', 'F#3', 'G3', 'A3', 'B3', 'C4', 'C#4', 'D4', 'E4', 'F4', 'F#4', 'G4', 'A4', 'B4', 'C5', 'C#5', 'D5', 'E5', 'F5', 'F#5']
-    if key_signature == "A":
-        pitch = ['F3', 'F#3', 'G3', 'G#3', 'A3', 'B3', 'C4', 'C#4', 'D4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'B4', 'C5', 'C#5', 'D5', 'E5', 'F5', 'F#5']
-    if key_signature == "E":
-        pitch = ['F3', 'F#3', 'G3', 'G#3', 'A3', 'B3', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'B4', 'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5']
+
+    range_,k = create_range(instrument, key_signature)
+
     length = []
     #whole =
     #half = 2
@@ -67,7 +196,7 @@ def make_random_music(time_signature, key_signature, clef_, measures, instrument
                 length.append('quarter')'''
     set = []
     for i in length:
-        set_approach = [random.choice(pitch), i]
+        set_approach = [random.choice(range_), i]
         set.append(set_approach)
     print(set)
 
@@ -81,7 +210,7 @@ def make_random_music(time_signature, key_signature, clef_, measures, instrument
             #Problem showed up when I changed this command from a direct string to this mess. Fix.
     ts = meter.TimeSignature(time_signature)
     s.append(ts)
-    k = key.Key(key_signature)
+    #k = key.Key(key_signature)
     s.append(k)
     if clef_ == "treble":
         c = clef.TrebleClef()
@@ -112,4 +241,4 @@ def make_image(music):
 
 if __name__=='__main__':
     print('Hello World')
-    make_random_music('4/4', 'F', 'Treble', '16')
+    make_random_music('4/4', 'F', 'Treble', '16', 'French Horn')

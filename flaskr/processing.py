@@ -361,40 +361,39 @@ def make_random_music(time_signature, key_signature, measures, instrument, save_
     #half = 2
     #quarter = 1
     for i in range(int(measures)):
-        options = ['whole', 'half', 'quarter']
-        choice = random.choice(options)
-        length.append(choice)
-        if choice == 'whole':
-            continue
-        elif choice == 'half':
-            options.remove('whole')
-            optionone = ['quarter', 'quarter']
-            optiontwo = ['half']
-            length.append(random.choice([optionone, optiontwo])[0])
-        elif choice == 'quarter':
-            options.remove('whole')
-            optionthree = ['quarter', 'half']
-            optionfour = ['quarter', 'quarter', 'quarter']
-            optionfive = ['half', 'quarter']
-            length.append(random.choice([optionthree, optionfour, optionfive])[0])
-    '''elif time_signature == '3/4':
-        for i in range(int(measures)):
-            options = ['half', 'quarter']
+        if time_signature == '4/4':
+            options = ['whole', 'half', 'quarter']
             choice = random.choice(options)
             length.append(choice)
-            if choice == 'half':
-                length.append('quarter')
-            elif choice == 'quarter':
-                length.append('half')
-    elif time_signature == '2/4':
-        for i in range(int(measures)):
-            options = ['half', 'quarter']
-            choice = random.choice(options)
-            length.append(choice)
-            if choice == 'half':
+            if choice == 'whole':
                 continue
+            elif choice == 'half':
+                options.remove('whole')
+                optionone = ['quarter', 'quarter']
+                optiontwo = ['half']
+                length.extend(random.choice([optionone, optiontwo]))
             elif choice == 'quarter':
-                length.append('quarter')'''
+                options.remove('whole')
+                optionthree = ['quarter', 'half']
+                optionfour = ['quarter', 'quarter', 'quarter']
+                optionfive = ['half', 'quarter']
+                length.extend(random.choice([optionthree, optionfour, optionfive]))
+        elif time_signature == '3/4':
+                options = ['half', 'quarter']
+                choice = random.choice(options)
+                length.append(choice)
+                if choice == 'half':
+                    length.append('quarter')
+                elif choice == 'quarter':
+                    length.append('half')
+        elif time_signature == '2/4':
+                options = ['half', 'quarter']
+                choice = random.choice(options)
+                length.append(choice)
+                if choice == 'half':
+                    continue
+                elif choice == 'quarter':
+                    length.append('quarter')
     set = []
     for i in length:
         set_approach = [random.choice(range_), i]

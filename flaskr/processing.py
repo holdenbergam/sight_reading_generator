@@ -3,358 +3,336 @@ import random
 from music21 import *
 from IPython import embed
 
-def create_range(instrument, key_signature):
+def create_range(instrument, key_signature, level):
 
-    if instrument == "French Horn":
-        k = key.Key(key_signature).transpose(-5)
-        c = clef.TrebleClef()
-        range_ = ['F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5']
-        if key_signature == "A#":
-            range_.extend(['B-3', 'B-4'])
-        elif key_signature == "D#":
-            range_.extend(['B-3', 'B-4', 'E-4', 'E-5'])
-        elif key_signature == "G#":
-            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4'])
-        elif key_signature == "C#":
-            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5'])
-        elif key_signature == "F#":
-            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5', 'G-3', 'G-4'])
-        elif key_signature == "B#":
-            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5', 'G-3', 'G-4', 'C-4', 'C-5'])
-        elif key_signature == "c#":
-            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5', 'G-3', 'G-4', 'C-4', 'C-5', 'F-3', 'F-4', 'F-5'])
-        elif key_signature == "E":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'D#4', 'D#5', 'A#3', 'A#4'])
-        elif key_signature == "A":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'D#4', 'D#5'])
-        elif key_signature == "D":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4'])
-        elif key_signature == "G":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5'])
-        elif key_signature == "C":
-            range_.extend(['F#3', 'F#4', 'F#5'])
-    elif instrument == "Trumpet" or instrument == "Baritone T.C.":
-        k = key.Key(key_signature).transpose(2)
-        c = clef.TrebleClef()
-        range_ = ['G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5']
-        if key_signature == "D#":
-            range_.extend(['B-3', 'B-4'])
-        elif key_signature == "G#":
-            range_.extend(['B-3', 'B-4', 'E-4', 'E-5'])
-        elif key_signature == "C#":
-            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4'])
-        elif key_signature == "F#":
-            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5'])
-        elif key_signature == "B#":
-            range_.extend(['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5', 'G-3', 'G-4', 'G-5'])
-        elif key_signature == "E":
-            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'E#4', 'E#5'])
-        elif key_signature == "A":
-            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4'])
-        elif key_signature == "D":
-            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5'])
-        elif key_signature == "G":
-            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5'])
-        elif key_signature == "C":
-            range_.extend(['F#4', 'F#5', 'C#4', 'C#5'])
-        elif key_signature == "F":
-            range_.extend(['F#4', 'F#5'])
-    elif instrument == "Alto Saxophone" or instrument == "Baritone Saxophone":
-        k = key.Key(key_signature).transpose(9)
-        c = clef.TrebleClef()
-        range_ = ['B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6']
-        if key_signature == "G#":
-            range_.extend(['B-3', 'B-4', 'B-5'])
-        elif key_signature == "C#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6'])
-        elif key_signature == "F#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5'])
-        elif key_signature == "B#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'D-4', 'D-5', 'D-6'])
-        elif key_signature == "E":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#4', 'A#5', 'E#4', 'E#5', 'E#6', 'B#3', 'B#4', 'B#5'])
-        elif key_signature == "A":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#4', 'A#5', 'E#4', 'E#5', 'E#6'])
-        elif key_signature == "D":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#4', 'A#5'])
-        elif key_signature == "G":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6'])
-        elif key_signature == "C":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5'])
-        elif key_signature == "F":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6'])
-        elif key_signature == "A#":
-            range_.extend(['F#4', 'F#5', 'F#6'])
-    elif instrument == "Tenor Saxophone":
-        k = key.Key(key_signature).transpose(2)
-        c = clef.TrebleClef()
-        range_ = ['B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6']
-        if key_signature == "D#":
-            range_.extend(['B-3', 'B-4', 'B-5'])
-        elif key_signature == "G#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6'])
-        elif key_signature == "C#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5'])
-        elif key_signature == "F#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'D-4', 'D-5', 'D-6'])
-        elif key_signature == "B#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5'])
-        elif key_signature == "E":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#4', 'A#5', 'E#4', 'E#5', 'E#6'])
-        elif key_signature == "A":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#4', 'A#5'])
-        elif key_signature == "D":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6'])
-        elif key_signature == "G":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5'])
-        elif key_signature == "C":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6'])
-        elif key_signature == "F":
-            range_.extend(['F#4', 'F#5', 'F#6'])
 
-    elif instrument == "Clarinet":
-        k = key.Key(key_signature).transpose(2)
-        c = clef.TrebleClef()
-        range_ = ['E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6']
-        if key_signature == "D#":
-            range_.extend(['B-3', 'B-4', 'B-5'])
-        elif key_signature == "G#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'E-6'])
-        elif key_signature == "C#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'E-6', 'A-3', 'A-4', 'A-5'])
-        elif key_signature == "F#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'E-6', 'A-3', 'A-4', 'A-5', 'D-4', 'D-5', 'D-6'])
-        elif key_signature == "B#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'E-6', 'A-3', 'A-4', 'A-5', 'D-4', 'D-5', 'D-6', 'G-3', 'G-4', 'G-5'])
-        elif key_signature == "E":
-            range_.extend(['F#3', 'F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#3', 'A#4', 'A#5', 'E#3', 'E#4', 'E#5', 'E#6'])
-        elif key_signature == "A":
-            range_.extend(['F#3', 'F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#3', 'A#4', 'A#5'])
-        elif key_signature == "D":
-            range_.extend(['F#3', 'F#4', 'F#5', 'F#6',  'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6'])
-        elif key_signature == "G":
-            range_.extend(['F#3', 'F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5'])
-        elif key_signature == "C":
-            range_.extend(['F#3', 'F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6'])
-        elif key_signature == "F":
-            range_.extend(['F#3', 'F#4', 'F#5', 'F#6',])
-    elif instrument == "Oboe":
-        k = key.Key(key_signature)#.transpose(2)
-        c = clef.TrebleClef()
-        range_ = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6']
-        if key_signature == "F":
-            range_.extend(['B-4', 'B-5'])
-        elif key_signature == "A#":
-            range_.extend(['B-4', 'B-5', 'E-4', 'E-5'])
-        elif key_signature == "D#":
-            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5'])
-        elif key_signature == "G#":
-            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5', 'D-4', 'D-5'])
-        elif key_signature == "C#":
-            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5', 'D-4', 'D-5', 'G-4', 'G-5'])
-        elif key_signature == "F#":
-            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5', 'D-4', 'D-5', 'G-4', 'G-5', 'C-4', 'C-5', 'C-6'])
-        elif key_signature == "B#":
-            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5', 'D-4', 'D-5', 'G-4', 'G-5', 'C-4', 'C-5', 'C-6', 'F-4', 'F-5'])
-        elif key_signature == "E":
-            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5'])
-        elif key_signature == "A":
-            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5'])
-        elif key_signature == "D":
-            range_.extend(['F#4', 'F#5', 'C#4', 'C#5', 'C#6'])
-        elif key_signature == "G":
-            range_.extend(['F#4', 'F#5'])
-    elif instrument == "Piccolo":
-        k = key.Key(key_signature)
-        c = clef.TrebleClef()
-        range_ = ['D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'E4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6', 'G6', 'A6']
-        if key_signature == "F":
-            range_.extend(['B-4', 'B-5'])
-        elif key_signature == "A#":
-            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'E-6'])
-        elif key_signature == "D#":
-            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6'])
-        elif key_signature == "G#":
-            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6'])
-        elif key_signature == "C#":
-            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5', 'G-6'])
-        elif key_signature == "F#":
-            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5', 'G-6', 'C-5', 'C-6'])
-        elif key_signature == "B#":
-            range_.extend(['B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5', 'G-6', 'C-5', 'C-6', 'F-4', 'F-5', 'F-6'])
-        elif key_signature == "E":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#5', 'C#6', 'G#4', 'G#5', 'G#6', 'D#4', 'D#5', 'D#6'])
-        elif key_signature == "A":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#5', 'C#6', 'G#4', 'G#5', 'G#6'])
-        elif key_signature == "D":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#5', 'C#6'])
-        elif key_signature == "G":
-            range_.extend(['F#4', 'F#5', 'F#6'])
-    elif instrument == "Flute":
-        k = key.Key(key_signature)#.transpose(2)
-        c = clef.TrebleClef()
-        range_ = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6', 'G6', 'A6', 'B6']
-        if key_signature == "F":
-            range_.extend(['B-4', 'B-5', 'B-6'])
-        elif key_signature == "A#":
-            range_.extend(['B-4', 'B-5', 'B-6', 'E-4', 'E-5', 'E-6'])
-        elif key_signature == "D#":
-            range_.extend(['B-4', 'B-5', 'B-6', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6'])
-        elif key_signature == "G#":
-            range_.extend(['B-4', 'B-5', 'B-6', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6'])
-        elif key_signature == "C#":
-            range_.extend(['B-4', 'B-5', 'B-6', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5', 'G-6'])
-        elif key_signature == "F#":
-            range_.extend(['B-4', 'B-5', 'B-6', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5', 'G-6', 'C-4', 'C-5', 'C-6'])
-        elif key_signature == "B#":
-            range_.extend(['B-4', 'B-5', 'B-6', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5', 'G-6', 'C-4', 'C-5', 'C-6', 'F-4', 'F-5', 'F-6'])
-        elif key_signature == "E":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'G#6', 'D#4', 'D#5', 'D#6'])
-        elif key_signature == "A":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'G#6'])
-        elif key_signature == "D":
-            range_.extend(['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6'])
-        elif key_signature == "G":
-            range_.extend(['F#4', 'F#5', 'F#6'])
-    elif instrument == "Trombone" or instrument == "Baritone B.C.":
-        k = key.Key(key_signature)
-        c = clef.BassClef()
-        range_ = ['F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4']
-        if key_signature == "F":
-            range_.extend(['B-2', 'B-3'])
-        elif key_signature == "A#":
-            range_.extend(['B-2', 'B-3', 'E-3', 'E-4'])
-        elif key_signature == "D#":
-            range_.extend(['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3'])
-        elif key_signature == "G#":
-            range_.extend(['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3', 'D-3', 'D-4'])
-        elif key_signature == "C#":
-            range_.extend(['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3', 'D-3', 'D-4', 'G-2', 'G-3'])
-        elif key_signature == "F#":
-            range_.extend(['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3', 'D-3', 'D-4', 'G-2', 'G-3', 'C-3', 'C-4'])
-        elif key_signature == "B#":
-            range_.extend(['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3', 'D-3', 'D-4', 'G-2', 'G-3', 'C-3', 'C-4', 'F-2', 'F-3', 'F-4'])
-        elif key_signature == "E":
-            range_.extend(['F#2', 'F#3', 'F#4', 'C#3', 'C#4', 'G#2', 'G#3', 'D#3', 'D#4'])
-        elif key_signature == "A":
-            range_.extend(['F#2', 'F#3', 'F#4', 'C#3', 'C#4', 'G#2', 'G#3'])
-        elif key_signature == "D":
-            range_.extend(['F#2', 'F#3', 'F#4', 'C#3', 'C#4'])
-        elif key_signature == "G":
-            range_.extend(['F#2', 'F#3', 'F#4'])
-    elif instrument == "Bassoon":
-        k = key.Key(key_signature)
-        c = clef.BassClef()
-        range_ = ['D2', 'E2', 'F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4']
-        if key_signature == "F":
-            range_.extend(['B-2', 'B-3'])
-        elif key_signature == "A#":
-            range_.extend(['B-2', 'B-3', 'E-2', 'E-3'])
-        elif key_signature == "D#":
-            range_.extend(['B-2', 'B-3', 'E-2', 'E-3', 'A-2', 'A-3'])
-        elif key_signature == "G#":
-            range_.extend(['B-2', 'B-3', 'E-2', 'E-3', 'A-2', 'A-3', 'D-2', 'D-3', 'D-4'])
-        elif key_signature == "C#":
-            range_.extend(['B-2', 'B-3', 'E-2', 'E-3', 'A-2', 'A-3', 'D-2', 'D-3', 'D-4', 'G-2', 'G-3'])
-        elif key_signature == "F#":
-            range_.extend(['B-2', 'B-3', 'E-2', 'E-3', 'A-2', 'A-3', 'D-2', 'D-3', 'D-4', 'G-2', 'G-3', 'C-3', 'C-4'])
-        elif key_signature == "B#":
-            range_.extend(['B-2', 'B-3', 'E-2', 'E-3', 'A-2', 'A-3', 'D-2', 'D-3', 'D-4', 'G-2', 'G-3', 'C-3', 'C-4', 'F-2', 'F-3'])
-        elif key_signature == "E":
-            range_.extend(['F#2', 'F#3', 'C#3', 'C#4', 'G#2', 'G#3', 'D#2', 'D#3', 'D#4'])
-        elif key_signature == "A":
-            range_.extend(['F#2', 'F#3', 'C#3', 'C#4', 'G#2', 'G#3'])
-        elif key_signature == "D":
-            range_.extend(['F#2', 'F#3', 'C#3', 'C#4'])
-        elif key_signature == "G":
-            range_.extend(['F#2', 'F#3'])
-    elif instrument == "Tuba":
-        k = key.Key(key_signature)
-        c = clef.BassClef()
-        range_ = ['F1', 'G1', 'A1', 'B1', 'C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3']
-        if key_signature == "F":
-            range_.extend(['B-1', 'B-2'])
-        elif key_signature == "A#":
-            range_.extend(['B-1', 'B-2', 'E-2', 'E-3'])
-        elif key_signature == "D#":
-            range_.extend(['B-1', 'B-2', 'E-2', 'E-3', 'A-1', 'A-2'])
-        elif key_signature == "G#":
-            range_.extend(['B-1', 'B-2', 'E-2', 'E-3', 'A-1', 'A-2', 'D-2', 'D-3'])
-        elif key_signature == "C#":
-            range_.extend(['B-1', 'B-2', 'E-2', 'E-3', 'A-1', 'A-2', 'D-2', 'D-3', 'G-1', 'G-2'])
-        elif key_signature == "F#":
-            range_.extend(['B-1', 'B-2', 'E-2', 'E-3', 'A-1', 'A-2', 'D-2', 'D-3', 'G-1', 'G-2', 'C-2', 'C-3'])
-        elif key_signature == "B#":
-            range_.extend(['B-1', 'B-2', 'E-2', 'E-3', 'A-1', 'A-2', 'D-2', 'D-3', 'G-1', 'G-2', 'C-2', 'C-3', 'F-1', 'F-2', 'F-3'])
-        elif key_signature == "E":
-            range_.extend(['F#1', 'F#2', 'F#3', 'C#2', 'C#3', 'G#1', 'G#2', 'D#2', 'D#3'])
-        elif key_signature == "A":
-            range_.extend(['F#1', 'F#2', 'F#3', 'C#2', 'C#3', 'G#1', 'G#2'])
-        elif key_signature == "D":
-            range_.extend(['F#1', 'F#2', 'F#3', 'C#2', 'C#3'])
-        elif key_signature == "G":
-            range_.extend(['F#1', 'F#2', 'F#3'])
-    elif instrument == "Alto Clarinet":
-        k = key.Key(key_signature).transpose(9)
-        c = clef.TrebleClef()
-        range_ = ['E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6']
-        if key_signature == "G#":
-            range_.extend(['B-3', 'B-4', 'B-5'])
-        elif key_signature == "C#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5'])
-        elif key_signature == "F#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'A-3', 'A-4', 'A-5'])
-        elif key_signature == "B#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'A-3', 'A-4', 'A-5', 'D-4', 'D-5'])
-        elif key_signature == "E":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'A#5', 'E#3', 'E#4', 'E#5', 'B#3', 'B#4', 'B#5'])
-        elif key_signature == "A":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'A#5', 'E#3', 'E#4', 'E#5'])
-        elif key_signature == "D":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'A#5'])
-        elif key_signature == "G":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5'])
-        elif key_signature == "C":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5'])
-        elif key_signature == "F":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6'])
-        elif key_signature == "A#":
-            range_.extend(['F#3', 'F#4', 'F#5'])
-    elif instrument == "Bass Clarinet" or instrument == "Contrabass Clarinet":
-        k = key.Key(key_signature).transpose(2)
-        c = clef.TrebleClef()
-        range_ = ['E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6']
-        if key_signature == "D#":
-            range_.extend(['B-3', 'B-4', 'B-5'])
-        elif key_signature == "G#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5'])
-        elif key_signature == "C#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'A-3', 'A-4', 'A-5'])
-        elif key_signature == "F#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'A-3', 'A-4', 'A-5', 'D-4', 'D-5'])
-        elif key_signature == "B#":
-            range_.extend(['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'A-3', 'A-4', 'A-5', 'D-4', 'D-5', 'G-3', 'G-4', 'G-5'])
-        elif key_signature == "E":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'A#5', 'E#3', 'E#4', 'E#5'])
-        elif key_signature == "A":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'A#5'])
-        elif key_signature == "D":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5'])
-        elif key_signature == "G":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5'])
-        elif key_signature == "C":
-            range_.extend(['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6'])
-        elif key_signature == "F":
-            range_.extend(['F#3', 'F#4', 'F#5'])
-    return range_, k, c
+    get_clef = {
+        "Flute": clef.TrebleClef(),
+        "Piccolo": clef.TrebleClef(),
+        "Oboe": clef.TrebleClef(),
+        "Clarinet": clef.TrebleClef(),
+        "Alto Saxophone": clef.TrebleClef(),
+        "Tenor Saxophone": clef.TrebleClef(),
+        "Baritone Saxophone": clef.TrebleClef(),
+        "Trumpet": clef.TrebleClef(),
+        "French Horn": clef.TrebleClef(),
+        "Trombone": clef.BassClef(),
+        "Bassoon": clef.BassClef(),
+        "Tuba": clef.BassClef(),
+        "Baritone B.C.": clef.BassClef(),
+        "Baritone T.C.": clef.TrebleClef(),
+        "Alto Clarinet": clef.TrebleClef(),
+        "Bass Clarinet": clef.TrebleClef(),
+        "Contrabass Clarinet": clef.TrebleClef()
+    }
+
+    get_transposition = {
+        "Flute": 0,
+        "Piccolo": 0,
+        "Oboe": 0,
+        "Clarinet": 2,
+        "Alto Saxophone": 9,
+        "Tenor Saxophone": 2,
+        "Baritone Saxophone": 9,
+        "Trumpet": 2,
+        "French Horn": -5,
+        "Trombone": 0,
+        "Bassoon": 0,
+        "Tuba": 0,
+        "Baritone B.C.": 0,
+        "Baritone T.C.": -2,
+        "Alto Clarinet": 9,
+        "Bass Clarinet": 2,
+        "Contrabass Clarinet": 2
+    }
+    base_range = {
+        "1": {
+            "Flute": ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6', 'G6', 'A6', 'B6'],
+            "Piccolo": ['D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'E4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6', 'G6', 'A6'],
+            "Oboe": ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6'],
+            "Clarinet": ['E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6'],
+            "Alto Saxophone": ['B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6'],
+            "Tenor Saxophone": ['B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6'],
+            "Baritone Saxophone": ['B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6'],
+            "French Horn": ['F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5'],
+            "Trumpet": ['G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5'],
+            "Trombone": ['F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4'],
+            "Bassoon": ['D2', 'E2', 'F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4'],
+            "Tuba": ['F1', 'G1', 'A1', 'B1', 'C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3'],
+            "Baritone B.C.": ['F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4'],
+            "Baritone T.C.": ['G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5'],
+            "Alto Clarinet": ['E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6'],
+            "Bass Clarinet": ['E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6'],
+            "Contrabass Clarinet": ['E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6']
+        },
+        "2": {
+            "Flute": ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6', 'G6', 'A6', 'B6', 'C7'],
+            "Piccolo": ['D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'E4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6', 'G6', 'A6', 'B6'],
+            "Oboe": ['B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6'],
+            "Clarinet": ['E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6', 'G6'],
+            "Alto Saxophone": ['B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6'],
+            "Tenor Saxophone": ['B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6'],
+            "Baritone Saxophone": ['B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6'],
+            "French Horn": ['C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6'],
+            "Trumpet": ['G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6'],
+            "Trombone": ['E2', 'F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4'],
+            "Bassoon": ['D2', 'E2', 'F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4'],
+            "Tuba": ['E1', 'F1', 'G1', 'A1', 'B1', 'C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3'],
+            "Baritone B.C.": ['E2', 'F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4'],
+            "Baritone T.C.": ['G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6'],
+            "Alto Clarinet": ['E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6'],
+            "Bass Clarinet": ['E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6'],
+            "Contrabass Clarinet": ['E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6']
+        }
+    }
+
+    range_extension = {
+        "French Horn": {
+            "F": [],
+            "A#": ['B-3', 'B-4'],
+            "D#": ['B-3', 'B-4', 'E-4', 'E-5'],
+            "G#": ['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4'],
+            "C#": ['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5'],
+            "F#": ['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5', 'G-3', 'G-4'],
+            "B#": ['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5', 'G-3', 'G-4', 'C-4', 'C-5'],
+            "E": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'D#4', 'D#5', 'A#3', 'A#4'],
+            "A": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'D#4', 'D#5'],
+            "D": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4'],
+            "G": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5'],
+            "C": ['F#3', 'F#4', 'F#5']
+        },
+        "Trumpet": {
+            "A#": [],
+            "D#": ['B-3', 'B-4'],
+            "G#": ['B-3', 'B-4', 'E-4', 'E-5'],
+            "C#": ['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4'],
+            "F#": ['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5'],
+            "B#": ['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5', 'G-3', 'G-4', 'G-5'],
+            "E": ['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'E#4', 'E#5'],
+            "A": ['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4'],
+            "D": ['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5'],
+            "G": ['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5'],
+            "C": ['F#4', 'F#5', 'C#4', 'C#5'],
+            "F": ['F#4', 'F#5']
+        },
+        "Baritone T.C.": {
+            "A#": [],
+            "D#": ['B-3', 'B-4'],
+            "G#": ['B-3', 'B-4', 'E-4', 'E-5'],
+            "C#": ['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4'],
+            "F#": ['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5'],
+            "B#": ['B-3', 'B-4', 'E-4', 'E-5', 'A-3', 'A-4', 'D-4', 'D-5', 'G-3', 'G-4', 'G-5'],
+            "E": ['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'E#4', 'E#5'],
+            "A": ['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4'],
+            "D": ['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5'],
+            "G": ['F#4', 'F#5', 'C#4', 'C#5', 'G#3', 'G#4', 'G#5'],
+            "C": ['F#4', 'F#5', 'C#4', 'C#5'],
+            "F": ['F#4', 'F#5']
+        },
+        "Alto Saxophone": {
+            "D#": [],
+            "G#": ['B-3', 'B-4', 'B-5'],
+            "C#": ['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6'],
+            "F#": ['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5'],
+            "B#": ['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'D-4', 'D-5', 'D-6'],
+            "E": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#4', 'A#5', 'E#4', 'E#5', 'E#6', 'B#3', 'B#4', 'B#5'],
+            "A": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#4', 'A#5', 'E#4', 'E#5', 'E#6'],
+            "D": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#4', 'A#5'],
+            "G": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6'],
+            "C": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5'],
+            "F": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6'],
+            "A#": ['F#4', 'F#5', 'F#6']
+        },
+        "Baritone Saxophone": {
+            "D#": [],
+            "G#": ['B-3', 'B-4', 'B-5'],
+            "C#": ['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6'],
+            "F#": ['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5'],
+            "B#": ['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'D-4', 'D-5', 'D-6'],
+            "E": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#4', 'A#5', 'E#4', 'E#5', 'E#6', 'B#3', 'B#4', 'B#5'],
+            "A": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#4', 'A#5', 'E#4', 'E#5', 'E#6'],
+            "D": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#4', 'A#5'],
+            "G": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6'],
+            "C": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5'],
+            "F": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6'],
+            "A#": ['F#4', 'F#5', 'F#6']
+        },
+        "Tenor Saxophone": {
+            "A#": [],
+            "D#": ['B-3', 'B-4', 'B-5'],
+            "G#": ['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6'],
+            "C#": ['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5'],
+            "F#": ['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'D-4', 'D-5', 'D-6'],
+            "B#": ['B-3', 'B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5'],
+            "E": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#4', 'A#5', 'E#4', 'E#5', 'E#6'],
+            "A": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#4', 'A#5'],
+            "D": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6'],
+            "G": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5'],
+            "C": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6'],
+            "F": ['F#4', 'F#5', 'F#6']
+        },
+        "Clarinet": {
+            "A#": [],
+            "D#": ['B-3', 'B-4', 'B-5'],
+            "G#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'E-6'],
+            "C#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'E-6', 'A-3', 'A-4', 'A-5'],
+            "F#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'E-6', 'A-3', 'A-4', 'A-5', 'D-4', 'D-5', 'D-6'],
+            "B#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'E-6', 'A-3', 'A-4', 'A-5', 'D-4', 'D-5', 'D-6', 'G-3', 'G-4', 'G-5'],
+            "E": ['F#3', 'F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#3', 'A#4', 'A#5', 'E#3', 'E#4', 'E#5', 'E#6'],
+            "A": ['F#3', 'F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6', 'A#3', 'A#4', 'A#5'],
+            "D": ['F#3', 'F#4', 'F#5', 'F#6',  'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'D#6'],
+            "G": ['F#3', 'F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5'],
+            "C": ['F#3', 'F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6'],
+            "F": ['F#3', 'F#4', 'F#5', 'F#6']
+        },
+        "Oboe": {
+            "C": [],
+            "F": ['B-4', 'B-5'],
+            "A#": ['B-4', 'B-5', 'E-4', 'E-5'],
+            "D#": ['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5'],
+            "G#": ['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5', 'D-4', 'D-5'],
+            "C#": ['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5', 'D-4', 'D-5', 'G-4', 'G-5'],
+            "F#": ['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5', 'D-4', 'D-5', 'G-4', 'G-5', 'C-4', 'C-5', 'C-6'],
+            "B#": ['B-4', 'B-5', 'E-4', 'E-5', 'A-4', 'A-5', 'D-4', 'D-5', 'G-4', 'G-5', 'C-4', 'C-5', 'C-6', 'F-4', 'F-5'],
+            "E": ['F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'D#4', 'D#5'],
+            "A": ['F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5'],
+            "D": ['F#4', 'F#5', 'C#4', 'C#5', 'C#6'],
+            "G": ['F#4', 'F#5']
+        },
+        "Piccolo": {
+            "C": [],
+            "F": ['B-4', 'B-5'],
+            "A#": ['B-4', 'B-5', 'E-4', 'E-5', 'E-6'],
+            "D#": ['B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6'],
+            "G#": ['B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6'],
+            "C#": ['B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5', 'G-6'],
+            "F#": ['B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5', 'G-6', 'C-5', 'C-6'],
+            "B#": ['B-4', 'B-5', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5', 'G-6', 'C-5', 'C-6', 'F-4', 'F-5', 'F-6'],
+            "E": ['F#4', 'F#5', 'F#6', 'C#5', 'C#6', 'G#4', 'G#5', 'G#6', 'D#4', 'D#5', 'D#6'],
+            "A": ['F#4', 'F#5', 'F#6', 'C#5', 'C#6', 'G#4', 'G#5', 'G#6'],
+            "D": ['F#4', 'F#5', 'F#6', 'C#5', 'C#6'],
+            "G": ['F#4', 'F#5', 'F#6']
+        },
+        "Flute": {
+            "C": [],
+            "F": ['B-4', 'B-5', 'B-6'],
+            "A#": ['B-4', 'B-5', 'B-6', 'E-4', 'E-5', 'E-6'],
+            "D#": ['B-4', 'B-5', 'B-6', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6'],
+            "G#": ['B-4', 'B-5', 'B-6', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6'],
+            "C#": ['B-4', 'B-5', 'B-6', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5', 'G-6'],
+            "F#": ['B-4', 'B-5', 'B-6', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5', 'G-6', 'C-4', 'C-5', 'C-6'],
+            "B#": ['B-4', 'B-5', 'B-6', 'E-4', 'E-5', 'E-6', 'A-4', 'A-5', 'A-6', 'D-4', 'D-5', 'D-6', 'G-4', 'G-5', 'G-6', 'C-4', 'C-5', 'C-6', 'F-4', 'F-5', 'F-6'],
+            "E": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'G#6', 'D#4', 'D#5', 'D#6'],
+            "A": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6', 'G#4', 'G#5', 'G#6'],
+            "D": ['F#4', 'F#5', 'F#6', 'C#4', 'C#5', 'C#6'],
+            "G": ['F#4', 'F#5', 'F#6']
+        },
+        "Trombone": {
+            "C": [],
+            "F": ['B-2', 'B-3'],
+            "A#": ['B-2', 'B-3', 'E-3', 'E-4'],
+            "D#": ['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3'],
+            "G#": ['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3', 'D-3', 'D-4'],
+            "C#": ['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3', 'D-3', 'D-4', 'G-2', 'G-3'],
+            "F#": ['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3', 'D-3', 'D-4', 'G-2', 'G-3', 'C-3', 'C-4'],
+            "B#": ['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3', 'D-3', 'D-4', 'G-2', 'G-3', 'C-3', 'C-4', 'F-2', 'F-3', 'F-4'],
+            "E": ['F#2', 'F#3', 'F#4', 'C#3', 'C#4', 'G#2', 'G#3', 'D#3', 'D#4'],
+            "A": ['F#2', 'F#3', 'F#4', 'C#3', 'C#4', 'G#2', 'G#3'],
+            "D": ['F#2', 'F#3', 'F#4', 'C#3', 'C#4'],
+            "G": ['F#2', 'F#3', 'F#4']
+        },
+        "Baritone B.C.": {
+            "C": [],
+            "F": ['B-2', 'B-3'],
+            "A#": ['B-2', 'B-3', 'E-3', 'E-4'],
+            "D#": ['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3'],
+            "G#": ['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3', 'D-3', 'D-4'],
+            "C#": ['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3', 'D-3', 'D-4', 'G-2', 'G-3'],
+            "F#": ['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3', 'D-3', 'D-4', 'G-2', 'G-3', 'C-3', 'C-4'],
+            "B#": ['B-2', 'B-3', 'E-3', 'E-4', 'A-2', 'A-3', 'D-3', 'D-4', 'G-2', 'G-3', 'C-3', 'C-4', 'F-2', 'F-3', 'F-4'],
+            "E": ['F#2', 'F#3', 'F#4', 'C#3', 'C#4', 'G#2', 'G#3', 'D#3', 'D#4'],
+            "A": ['F#2', 'F#3', 'F#4', 'C#3', 'C#4', 'G#2', 'G#3'],
+            "D": ['F#2', 'F#3', 'F#4', 'C#3', 'C#4'],
+            "G": ['F#2', 'F#3', 'F#4']
+        },
+        "Bassoon": {
+            "C": [],
+            "F": ['B-2', 'B-3'],
+            "A#": ['B-2', 'B-3', 'E-2', 'E-3'],
+            "D#": ['B-2', 'B-3', 'E-2', 'E-3', 'A-2', 'A-3'],
+            "G#": ['B-2', 'B-3', 'E-2', 'E-3', 'A-2', 'A-3', 'D-2', 'D-3', 'D-4'],
+            "C#": ['B-2', 'B-3', 'E-2', 'E-3', 'A-2', 'A-3', 'D-2', 'D-3', 'D-4', 'G-2', 'G-3'],
+            "F#": ['B-2', 'B-3', 'E-2', 'E-3', 'A-2', 'A-3', 'D-2', 'D-3', 'D-4', 'G-2', 'G-3', 'C-3', 'C-4'],
+            "B#": ['B-2', 'B-3', 'E-2', 'E-3', 'A-2', 'A-3', 'D-2', 'D-3', 'D-4', 'G-2', 'G-3', 'C-3', 'C-4', 'F-2', 'F-3'],
+            "E": ['F#2', 'F#3', 'C#3', 'C#4', 'G#2', 'G#3', 'D#2', 'D#3', 'D#4'],
+            "A": ['F#2', 'F#3', 'C#3', 'C#4', 'G#2', 'G#3'],
+            "D": ['F#2', 'F#3', 'C#3', 'C#4'],
+            "G": ['F#2', 'F#3']
+        },
+        "Tuba": {
+            "C": [],
+            "F": ['B-1', 'B-2'],
+            "A#": ['B-1', 'B-2', 'E-2', 'E-3'],
+            "D#": ['B-1', 'B-2', 'E-2', 'E-3', 'A-1', 'A-2'],
+            "G#": ['B-1', 'B-2', 'E-2', 'E-3', 'A-1', 'A-2', 'D-2', 'D-3'],
+            "C#": ['B-1', 'B-2', 'E-2', 'E-3', 'A-1', 'A-2', 'D-2', 'D-3', 'G-1', 'G-2'],
+            "F#": ['B-1', 'B-2', 'E-2', 'E-3', 'A-1', 'A-2', 'D-2', 'D-3', 'G-1', 'G-2', 'C-2', 'C-3'],
+            "B#": ['B-1', 'B-2', 'E-2', 'E-3', 'A-1', 'A-2', 'D-2', 'D-3', 'G-1', 'G-2', 'C-2', 'C-3', 'F-1', 'F-2', 'F-3'],
+            "E": ['F#1', 'F#2', 'F#3', 'C#2', 'C#3', 'G#1', 'G#2', 'D#2', 'D#3'],
+            "A": ['F#1', 'F#2', 'F#3', 'C#2', 'C#3', 'G#1', 'G#2'],
+            "D": ['F#1', 'F#2', 'F#3', 'C#2', 'C#3'],
+            "G": ['F#1', 'F#2', 'F#3']
+        },
+        "Alto Clarinet": {
+            "D#": [],
+            "G#": ['B-3', 'B-4', 'B-5'],
+            "C#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5'],
+            "F#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'A-3', 'A-4', 'A-5'],
+            "B#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'A-3', 'A-4', 'A-5', 'D-4', 'D-5'],
+            "E": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'A#5', 'E#3', 'E#4', 'E#5', 'B#3', 'B#4', 'B#5'],
+            "A": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'A#5', 'E#3', 'E#4', 'E#5'],
+            "D": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'A#5'],
+            "G": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5'],
+            "C": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5'],
+            "F": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6'],
+            "A#": ['F#3', 'F#4', 'F#5']
+        },
+        "Bass Clarinet": {
+            "A#": [],
+            "D#": ['B-3', 'B-4', 'B-5'],
+            "G#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5'],
+            "C#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'A-3', 'A-4', 'A-5'],
+            "F#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'A-3', 'A-4', 'A-5', 'D-4', 'D-5'],
+            "B#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'A-3', 'A-4', 'A-5', 'D-4', 'D-5', 'G-3', 'G-4', 'G-5'],
+            "E": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'A#5', 'E#3', 'E#4', 'E#5'],
+            "A": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'A#5'],
+            "D": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5'],
+            "G": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5'],
+            "C": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6'],
+            "F": ['F#3', 'F#4', 'F#5']
+        },
+        "Contrabass Clarinet": {
+            "A#": [],
+            "D#": ['B-3', 'B-4', 'B-5'],
+            "G#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5'],
+            "C#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'A-3', 'A-4', 'A-5'],
+            "F#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'A-3', 'A-4', 'A-5', 'D-4', 'D-5'],
+            "B#": ['B-3', 'B-4', 'B-5', 'E-3', 'E-4', 'E-5', 'A-3', 'A-4', 'A-5', 'D-4', 'D-5', 'G-3', 'G-4', 'G-5'],
+            "E": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'A#5', 'E#3', 'E#4', 'E#5'],
+            "A": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5', 'A#3', 'A#4', 'A#5'],
+            "D": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5', 'D#4', 'D#5'],
+            "G": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6', 'G#3', 'G#4', 'G#5'],
+            "C": ['F#3', 'F#4', 'F#5', 'C#4', 'C#5', 'C#6'],
+            "F": ['F#3', 'F#4', 'F#5']
+        }
+    }
+    range_ = base_range[instrument] + range_extension[instrument][key_signature]
+    c = get_clef[instrument]
+    k = key.Key(key_signature).transpose(get_transposition[instrument])
+    return range_, c, k
 
 
 def make_random_music(time_signature, key_signature, measures, instrument, save_to='im/image.pdf'):
-    #return [[(34, 1/2), (37, 1/4), 33, ...], [(23, 1), ...] , ...]
-
-    #41, 43, 45, 47, 48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, respectively
-
-    #NATURAL ACCIDENTALS TO BE REMOVED
 
     range_,k,c = create_range(instrument, key_signature)
 
@@ -411,10 +389,8 @@ def make_random_music(time_signature, key_signature, measures, instrument, save_
     s.metadata.title = instrument + ' Sample'
     s.metadata.composer = ' '
     d = duration.Duration()
-            #Problem showed up when I changed this command from a direct string to this mess. Fix.
     ts = meter.TimeSignature(time_signature)
     s.append(ts)
-    #k = key.Key(key_signature)
     s.append(k)
     s.append(c)
 
@@ -440,4 +416,5 @@ def make_image(music):
 
 if __name__=='__main__':
     print('Hello World')
-    make_random_music('4/4', 'F', 'Treble', '16', 'French Horn')
+    #(time_signature, key_signature, measures, instrument
+    make_random_music('4/4', 'F', 16, 'French Horn')

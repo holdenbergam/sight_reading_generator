@@ -86,6 +86,7 @@ def create_range(instrument, key_signature, level):
         }
     }
 
+
     range_extension = {
         "French Horn": {
             "1": {
@@ -601,8 +602,8 @@ def create_range(instrument, key_signature, level):
             }
         }
     }
-    #embed()
-    range_ = base_range[level][instrument] + range_extension[instrument][level][key_signature]
+
+    range_ = base_range[level][instrument] #+ range_extension[instrument][level][key_signature]
     c = get_clef[instrument]
     k = key.Key(key_signature).transpose(get_transposition[instrument])
     return range_, c, k
@@ -619,7 +620,7 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
 
     totalcounter = 0.0
     for i in range(int(measures)):
-        options = ['4.0', '3.0', '2.0', '1.5', '1.0', '0.5']
+        options = [4.0, 3.0, 2.0, 1.5, 1.0, 0.5, 1.0/3.0, 0.25]
         time_signature_length = {
             '4/4': 4.0,
             '3/4': 3.0,
@@ -633,14 +634,26 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
         while beatcounter < time_signature_length[time_signature]:
             valid_options = []
             for j in options:
-                if float(j) <= time_signature_length[time_signature] - beatcounter:
+                if j <= time_signature_length[time_signature] - beatcounter:
                     valid_options.append(j)
+            #embed()
             choice_ = random.choice(valid_options)
+            #embed()
             length.append(choice_)
             beatcounter += float(choice_)
-            if choice_ == '1.5' or choice_ == '0.5' and beatcounter != 4.0:
-                length.append('0.5')
+            #embed()
+            if choice_ == 1.5 or choice_ == 0.5 and beatcounter != 4.0:
+                length.append(0.5)
                 beatcounter += 0.5
+            elif choice_ == 0.25 and beatcounter != 4.0:
+                length.extend([0.25, 0.25, 0.25])
+                beatcounter += 0.75
+                #embed()
+            elif choice_ == 1.0/3.0 and beatcounter != 4.0:
+                length.extend([1.0/3.0, 1.0/3.0])
+                #embed()
+                beatcounter += 2.0/3.0
+                #embed(
             print(beatcounter)
             print(options)
 
@@ -650,9 +663,28 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
 #ties into the next measure
 
     set = []
-    for i in length:
-        set_approach = [random.choice(range_), i]
-        set.append(set_approach)
+    #while len(set) < len(length):
+        #i = 0
+    last_note_ix = random.randint(0, len(range_))
+    for i in range(len(length)):
+        rand_direction = random.randint(-4,4)#choice([1, -1])
+        #this_note_ix = (last_note_ix + rand_direction) % len(range_) #random.randint(0, len(range_)) #random.choice(range_)
+        this_note_ix = last_note_ix + rand_direction
+
+        if this_note_ix > len(range_)-1:
+            this_note_ix = len(range_)-1
+        elif this_note_ix < 0:
+            this_note_ix = 0
+
+        #set_approach = [set_thing, length[i]]
+        next_note = range_[this_note_ix]
+        set.append([next_note, length[i]])
+        last_note_ix = this_note_ix
+        #i += 1
+        #bruh = random.choice([1, -1])
+        #set_approachtwo = range_[int(set_thing)+bruh], length[i]
+        #set.append(set_approachtwo)
+        #i += 1
     print(set)
 
 
@@ -666,6 +698,9 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
     s.append(ts)
     s.append(k)
     s.append(c)
+
+    sp = midi.realtime.StreamPlayer(s)
+    sp.play()
 
 
 
@@ -682,9 +717,14 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
     #s.show()
 
     s.write('musicxml.pdf', fp='flaskr/static/image.pdf')
+    #s.write('musicxml.pdf', fp='static/image.pdf')
     print('wrote new music!')
 
 
+'''from music21 import corpus
+from music21 import converter
+
+from midi2audio import FluidSynth'''
 
 def make_image(music):
     return 0
@@ -694,6 +734,20 @@ if __name__=='__main__':
     #(time_signature, key_signature, measures, instrument
     make_random_music('4/4', 'F', 16, 'French Horn', "1")
 
+    #FluidSynth().midi_to_audio('../musicset/bach/bach_846.mid', 'output.wav')
+
+
+    """
+    keyDetune = []
+    for i in range(0, 127):
+        keyDetune.append(random.randint(-30, 30))
+
+    b = converter.parse('../musicset/bach/bach_846.mid')
+    for n in b.flat.notes:
+        n.microtone = keyDetune[n.pitch.midi]
+    sp = midi.realtime.StreamPlayer(b)
+    sp.play()
+    """
 
     """
     for i in range(int(measures)):

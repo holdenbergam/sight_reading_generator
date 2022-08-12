@@ -45,6 +45,12 @@ def create_range(instrument, key_signature, level):
         "Bass Clarinet": 2,
         "Contrabass Clarinet": 2
     }
+
+    # Flute: bFlat4-bFlat5, F4-E6, C4-B6
+    #Piccolo: bFlat4-bFlat5, F4-E6, D4-B6
+    #Oboe: C4-C5, C4-bFlat5, bFlat3-D6
+    #Clarinet: bFlat4-bFlat5, F3-A5, E3-D6
+    #AltoSax: F4-F5
     base_range = {
         "1": {
             "Flute": ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6', 'G6', 'A6', 'B6'],
@@ -608,7 +614,7 @@ def create_range(instrument, key_signature, level):
     k = key.Key(key_signature).transpose(get_transposition[instrument])
     return range_, c, k
 
-
+import music21
 def make_random_music(time_signature, key_signature, measures, instrument, level, save_to='im/image.pdf'):
 
     range_,k,c = create_range(instrument, key_signature, level)
@@ -687,7 +693,25 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
         #i += 1
     print(set)
 
-
+    instrument_midi = {
+        "Flute": music21.instrument.Flute(),
+        "Piccolo": music21.instrument.Piccolo(),
+        "Oboe": music21.instrument.Oboe(),
+        "Clarinet": music21.instrument.Clarinet(),
+        "Alto Saxophone": music21.instrument.AltoSaxophone(),
+        "Tenor Saxophone": music21.instrument.TenorSaxophone(),
+        "Baritone Saxophone": music21.instrument.BaritoneSaxophone(),
+        "Trumpet": music21.instrument.Trumpet(),
+        "French Horn": music21.instrument.Horn(),
+        "Trombone": music21.instrument.Trombone(),
+        "Bassoon": music21.instrument.Bassoon(),
+        "Tuba": music21.instrument.Tuba(),
+        "Baritone B.C.": music21.instrument.Baritone(),
+        "Baritone T.C.": music21.instrument.Baritone(),
+        "Alto Clarinet": music21.instrument.EnglishHorn(),
+        "Bass Clarinet": music21.instrument.BassClarinet(),
+        "Contrabass Clarinet": music21.instrument.BassClarinet()
+    }
 
     s = stream.Stream()
     s.insert(0, metadata.Metadata())
@@ -698,9 +722,10 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
     s.append(ts)
     s.append(k)
     s.append(c)
+    s.append(instrument_midi[instrument])
 
-    sp = midi.realtime.StreamPlayer(s)
-    sp.play()
+    #sp = midi.realtime.StreamPlayer(s)
+    #sp.play()
 
 
 
@@ -717,14 +742,16 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
     #s.show()
 
     s.write('musicxml.pdf', fp='flaskr/static/image.pdf')
+    s.write('midi', fp='flaskr/static/music_output.mid')
     #s.write('musicxml.pdf', fp='static/image.pdf')
     print('wrote new music!')
 
 
-'''from music21 import corpus
+'''from music21 import corpus'''
 from music21 import converter
 
-from midi2audio import FluidSynth'''
+'''from midi2audio import FluidSynth'''
+
 
 def make_image(music):
     return 0
@@ -732,7 +759,22 @@ def make_image(music):
 if __name__=='__main__':
     print('Hello World')
     #(time_signature, key_signature, measures, instrument
-    make_random_music('4/4', 'F', 16, 'French Horn', "1")
+    #make_random_music('4/4', 'F', 16, 'French Horn', "1")
+    #converter.registerSubconverter('all')
+    #midiconverter = converter.subConverters.ConverterMidi
+    #s = converter.parse('/Users/mirobergam/Desktop/sight_reading_generator/flaskr/static/image.musicxml')
+    #fp = s.write('midi', fp='static/music_output.mid')
+    #s.show('midi')
+
+    '''keyDetune = []
+    for i in range(127):
+        keyDetune.append(random.randint(-30, 30))
+    b = corpus.parse('s')
+    for n in b.flatten().notes:
+        n.chord.pitch.microtone = keyDetune[n.chord.pitch.midi]
+    sp = midi.realtime.StreamPlayer(b)
+    sp.play()'''
+
 
     #FluidSynth().midi_to_audio('../musicset/bach/bach_846.mid', 'output.wav')
 

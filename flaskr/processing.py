@@ -664,17 +664,12 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
             print(options)
 
         totalcounter+=beatcounter
-        #embed()
 
-#ties into the next measure
 
     set = []
-    #while len(set) < len(length):
-        #i = 0
     last_note_ix = random.randint(0, len(range_))
     for i in range(len(length)):
-        rand_direction = random.randint(-4,4)#choice([1, -1])
-        #this_note_ix = (last_note_ix + rand_direction) % len(range_) #random.randint(0, len(range_)) #random.choice(range_)
+        rand_direction = random.randint(-4,4)
         this_note_ix = last_note_ix + rand_direction
 
         if this_note_ix > len(range_)-1:
@@ -682,15 +677,10 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
         elif this_note_ix < 0:
             this_note_ix = 0
 
-        #set_approach = [set_thing, length[i]]
         next_note = range_[this_note_ix]
         set.append([next_note, length[i]])
         last_note_ix = this_note_ix
-        #i += 1
-        #bruh = random.choice([1, -1])
-        #set_approachtwo = range_[int(set_thing)+bruh], length[i]
-        #set.append(set_approachtwo)
-        #i += 1
+
     print(set)
 
     instrument_midi = {
@@ -723,27 +713,24 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
     s.append(k)
     s.append(c)
     s.append(instrument_midi[instrument])
-
-    #sp = midi.realtime.StreamPlayer(s)
-    #sp.play()
-
-
-
+    s.append(dynamics.Dynamic(random.choice(['pp', 'p', 'mp', 'mf', 'f', 'ff'])))
 
     for i in set:
         n = note.Note(i[0], quarterLength=float(i[1]))
+        acce = articulations.Accent()
+        stac = articulations.Staccato()
+        tenu = articulations.Tenuto()
+        whatdoinamethis = random.randint(1, 9)
+        if whatdoinamethis < 3:
+            n.articulations = [random.choice([acce, stac, tenu])]
+        else:
+            print("")
+        s.append(n)
 
-        r = note.Rest()
-        options = [n, n, n]
-        #quarterLength = i[1]
-        #n.duration = duration.Duration(float(quarterLength))
-        s.append(random.choice(options))
-        #WHAT DO I DO HERE
-    #s.show()
 
     s.write('musicxml.pdf', fp='flaskr/static/image.pdf')
     s.write('midi', fp='flaskr/static/music_output.mid')
-    #s.write('musicxml.pdf', fp='static/image.pdf')
+
     print('wrote new music!')
 
 

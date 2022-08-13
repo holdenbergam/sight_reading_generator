@@ -1,12 +1,63 @@
 <html>
+  <link href='https://fonts.googleapis.com/css?family=Spectral' rel='stylesheet'>
+  <style>
+
+  h1 {
+    font-family: "Spectral";
+  }
+  form {
+    font-family: "Spectral";
+    width: 100%;
+    /*background-color: #000000;*/
+    color: black;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+
+  /*input[type=select], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  }*/
+
+  input[type=submit] {
+  float: center;
+  width: 20%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  }
+
+  input[type=submit]:hover {
+  background-color: #45a049;
+  }
+
+  /*div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  }*/
+  </style>
     <head>
         <title>Holden's Auto Sight-Reading Generator</title>
     </head>
     <body>
-        <h1>Holden's Auto Sight-Reading Generator</h1>
+        <h1><center>Holden's Auto Sight-Reading Generator</center></h1>
 
 <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
-
+        <center>
         <form action="result" method="post">
 
           <label for="instrument">Select an instrument</label>
@@ -95,6 +146,7 @@
           </select>
 
           <br><br>
+
           <!--<label for="difficulty">Choose a level of difficulty</label>
           <select id="difficulty" name="difficulty">
           <option value="1">1</option>
@@ -115,7 +167,7 @@
           <br><br>-->
 
 <form action="/action_page.php">
-          <label for="measures">Select an estimated number of measures to generate</label>
+          <label for="measures">Select a number of measures to generate</label>
           <select id="measures" name="measures">
           <option value="4">4</option>
           <option value="8">8</option>
@@ -128,7 +180,7 @@
           <input type="submit" value="Submit">
         </form>
 
-
+        </center>
 
         </body>
 </html>

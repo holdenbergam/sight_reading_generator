@@ -1,3 +1,4 @@
+
 import random
 #from myly import CreateMusicXML
 from music21 import *
@@ -716,17 +717,32 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
     s.append(dynamics.Dynamic(random.choice(['pp', 'p', 'mp', 'mf', 'f', 'ff'])))
 
     for i in set:
-        n = note.Note(i[0], quarterLength=float(i[1]))
-        acce = articulations.Accent()
-        stac = articulations.Staccato()
-        tenu = articulations.Tenuto()
-        whatdoinamethis = random.randint(1, 9)
-        if whatdoinamethis < 3:
-            n.articulations = [random.choice([acce, stac, tenu])]
-        else:
-            print("")
-        s.append(n)
-
+        the_option = random.choice(['n', 'r'])
+        if the_option == 'n':
+            n = note.Note(i[0], quarterLength=float(i[1]))
+            acce = articulations.Accent()
+            stac = articulations.Staccato()
+            tenu = articulations.Tenuto()
+            whatdoinamethis = random.randint(1, 9)
+            if whatdoinamethis < 3:
+                n.articulations = [random.choice([acce, stac, tenu])]
+            else:
+                print("")
+            s.append(n)
+        elif the_option == 'r' and i[1] == 3.0 or i[1] == 1.5 or i[1] == 0.5 or i[1] == 1.0/3.0 or i[1] == 0.25:
+            n = note.Note(i[0], quarterLength=float(i[1]))
+            acce = articulations.Accent()
+            stac = articulations.Staccato()
+            tenu = articulations.Tenuto()
+            whatdoinamethis = random.randint(1, 9)
+            if whatdoinamethis < 3:
+                n.articulations = [random.choice([acce, stac, tenu])]
+            else:
+                print("")
+            s.append(n)
+        elif the_option == 'r' and i[1] == 4.0 or i[1] == 2.0 or i[1] == 1.0:
+            r = note.Rest(quarterLength=float(i[1]))
+            s.append(r)
 
     s.write('musicxml.pdf', fp='flaskr/static/image.pdf')
     s.write('midi', fp='flaskr/static/music_output.mid')

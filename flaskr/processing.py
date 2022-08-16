@@ -4,6 +4,8 @@ import random
 from music21 import *
 from IPython import embed
 
+import music21
+
 def create_range(instrument, key_signature, level):
 
 
@@ -50,8 +52,15 @@ def create_range(instrument, key_signature, level):
     # Flute: bFlat4-bFlat5, F4-E6, C4-B6
     #Piccolo: bFlat4-bFlat5, F4-E6, D4-B6
     #Oboe: C4-C5, C4-bFlat5, bFlat3-D6
-    #Clarinet: bFlat4-bFlat5, F3-A5, E3-D6
-    #AltoSax: F4-F5
+    #Clarinet: bFlat3-bFlat4, F3-A5, E3-D6
+    #AltoSax: F4-F5, C4-B5, bFlat3-F6
+    #TenorSax: F4-F5, C4-B5, bFlat3-F6
+    #BariSax: F4-F5, C4-B5, A3-D6
+    #Trumpet: C4-C5, A3-G5, A3-C5
+    #Horn: bFlat3-bFlat4, A3-F5, G3-A5
+    #Trombone: bFlat2-bFlat3, aFlat2-F4, G2-bFlat4
+    
+
     base_range = {
         "1": {
             "Flute": ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6', 'D6', 'E6', 'F6', 'G6', 'A6', 'B6'],
@@ -609,7 +618,8 @@ def create_range(instrument, key_signature, level):
             }
         }
     }
-
+    s = stream.Stream()
+    s.transpose(get_transposition[instrument])
     range_ = base_range[level][instrument] #+ range_extension[instrument][level][key_signature]
     c = get_clef[instrument]
     k = key.Key(key_signature).transpose(get_transposition[instrument])
@@ -634,33 +644,24 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
             '2/4': 2.0
         }
 
-        #for j in options:
-        #    if float(j) > time_signature_length[time_signature]:
-        #        options.remove(j)#float(time_signature.numerator)
         beatcounter = 0.0
         while beatcounter < time_signature_length[time_signature]:
             valid_options = []
             for j in options:
                 if j <= time_signature_length[time_signature] - beatcounter:
                     valid_options.append(j)
-            #embed()
             choice_ = random.choice(valid_options)
-            #embed()
             length.append(choice_)
             beatcounter += float(choice_)
-            #embed()
             if choice_ == 1.5 or choice_ == 0.5 and beatcounter != 4.0:
                 length.append(0.5)
                 beatcounter += 0.5
             elif choice_ == 0.25 and beatcounter != 4.0:
                 length.extend([0.25, 0.25, 0.25])
                 beatcounter += 0.75
-                #embed()
             elif choice_ == 1.0/3.0 and beatcounter != 4.0:
                 length.extend([1.0/3.0, 1.0/3.0])
-                #embed()
                 beatcounter += 2.0/3.0
-                #embed(
             print(beatcounter)
             print(options)
 
@@ -668,19 +669,35 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
 
 
     set = []
-    last_note_ix = random.randint(0, len(range_))
-    for i in range(len(length)):
-        rand_direction = random.randint(-4,4)
-        this_note_ix = last_note_ix + rand_direction
 
-        if this_note_ix > len(range_)-1:
-            this_note_ix = len(range_)-1
-        elif this_note_ix < 0:
-            this_note_ix = 0
+    if level == "1":
+        last_note_ix = random.randint(0, len(range_))
+        for i in range(len(length)):
+            rand_direction = random.randint(-4,4)
+            this_note_ix = last_note_ix + rand_direction
 
-        next_note = range_[this_note_ix]
-        set.append([next_note, length[i]])
-        last_note_ix = this_note_ix
+            if this_note_ix > len(range_)-1:
+                this_note_ix = len(range_)-1
+            elif this_note_ix < 0:
+                this_note_ix = 0
+
+            next_note = range_[this_note_ix]
+            set.append([next_note, length[i]])
+            last_note_ix = this_note_ix
+    if level == "2":
+        last_note_ix = random.randint(0, len(range_))
+        for i in range(len(length)):
+            rand_direction = random.randint(-7,7)
+            this_note_ix = last_note_ix + rand_direction
+
+            if this_note_ix > len(range_)-1:
+                this_note_ix = len(range_)-1
+            elif this_note_ix < 0:
+                this_note_ix = 0
+
+            next_note = range_[this_note_ix]
+            set.append([next_note, length[i]])
+            last_note_ix = this_note_ix
 
     print(set)
 
@@ -761,75 +778,3 @@ def make_image(music):
 
 if __name__=='__main__':
     print('Hello World')
-    #(time_signature, key_signature, measures, instrument
-    #make_random_music('4/4', 'F', 16, 'French Horn', "1")
-    #converter.registerSubconverter('all')
-    #midiconverter = converter.subConverters.ConverterMidi
-    #s = converter.parse('/Users/mirobergam/Desktop/sight_reading_generator/flaskr/static/image.musicxml')
-    #fp = s.write('midi', fp='static/music_output.mid')
-    #s.show('midi')
-
-    '''keyDetune = []
-    for i in range(127):
-        keyDetune.append(random.randint(-30, 30))
-    b = corpus.parse('s')
-    for n in b.flatten().notes:
-        n.chord.pitch.microtone = keyDetune[n.chord.pitch.midi]
-    sp = midi.realtime.StreamPlayer(b)
-    sp.play()'''
-
-
-    #FluidSynth().midi_to_audio('../musicset/bach/bach_846.mid', 'output.wav')
-
-
-    """
-    keyDetune = []
-    for i in range(0, 127):
-        keyDetune.append(random.randint(-30, 30))
-
-    b = converter.parse('../musicset/bach/bach_846.mid')
-    for n in b.flat.notes:
-        n.microtone = keyDetune[n.pitch.midi]
-    sp = midi.realtime.StreamPlayer(b)
-    sp.play()
-    """
-
-    """
-    for i in range(int(measures)):
-        if time_signature == '4/4':
-            options = ['whole', 'half', 'quarter']
-            choice = random.choice(options)
-            length.append(choice)
-            if choice == 'whole':
-                continue
-            elif choice == 'half':
-                options.remove('whole')
-                optionone = ['quarter', 'quarter']
-                optiontwo = ['half']
-                length.extend(random.choice([optionone, optiontwo]))
-            elif choice == 'quarter':
-                options.remove('whole')
-                optionthree = ['quarter', 'half']
-                optionfour = ['quarter', 'quarter', 'quarter']
-                optionfive = ['half', 'quarter']
-                length.extend(random.choice([optionthree, optionfour, optionfive]))
-        elif time_signature == '3/4':
-                options = ['half', 'quarter']
-                choice = random.choice(options)
-                length.append(choice)
-                if choice == 'half':
-                    length.append('quarter')
-                elif choice == 'quarter':
-                    optionone = ['half']
-                    optiontwo = ['quarter', 'quarter']
-                    length.extend(random.choice([optionone, optiontwo]))
-        elif time_signature == '2/4':
-                options = ['half', 'quarter']
-                choice = random.choice(options)
-                length.append(choice)
-                if choice == 'half':
-                    continue
-                elif choice == 'quarter':
-                    continue
-
-    """

@@ -8,7 +8,6 @@
   form {
     font-family: "Spectral";
     width: 100%;
-    /*background-color: #000000;*/
     color: black;
     padding: 14px 20px;
     margin: 8px 0;
@@ -16,17 +15,6 @@
     border-radius: 4px;
     cursor: pointer;
   }
-
-
-  /*input[type=select], select {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  }*/
 
   input[type=submit] {
   float: center;
@@ -44,11 +32,6 @@
   background-color: #45a049;
   }
 
-  /*div {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
-  }*/
   </style>
     <head>
         <title>Holden's Auto Sight-Reading Generator</title>
@@ -81,20 +64,6 @@
           <option value="Bass Clarinet">Contrabass Clarinet</option>
           </select>
 
-          <!--<div data-show-if="instrument:French Horn">
-            <label for="time">Choose a concert pitch</label>
-            <select id="key" name="key">
-            <option value="C">C</option>
-            <option value="F">F</option>
-            <option value="bFlat">B flat</option>
-            <option value="eFlat">E flat</option>
-            <option value="aFlat">A flat</option>
-            <option value="G">G</option>
-            <option value="D">D</option>
-            <option value="A">A</option>
-            <option value="E"></option>
-          </select>
-        </div>-->
           <br><br>
 
         <form action="/action_page.php">
@@ -131,40 +100,12 @@
           <option value="G">G major</option>
           <option value="C">C major</option>
           <option value="F">F major</option>
-          <!-- <option value="a#">B flat minor</option>
-          <option value="d#">E flat minor</option>
-          <option value="g#">A flat minor</option>
-          <option value="c#">D flat minor</option>
-          <option value="f#">G flat minor</option>
-          <option value="b">B minor</option>
-          <option value="e">E minor</option>
-          <option value="a">A minor</option>
-          <option value="d">D minor</option>
-          <option value="g">G minor</option>
-          <option value="c">C minor</option>
-          <option value="f">F minor</option> -->
+
           </select>
 
           <br><br>
 
-          <!--<label for="difficulty">Choose a level of difficulty</label>
-          <select id="difficulty" name="difficulty">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          </select>
-<br><br>-->
 
-
-
-
-<!--<form action="/action_page.php">
-          <label for="clef">Choose a clef</label>
-          <select id="clef" name="clef">
-          <option value="treble">Treble</option>
-          <option value="bass">Bass</option>
-        </select>
-          <br><br>-->
 
 <form action="/action_page.php">
           <label for="measures">Select a number of measures to generate</label>

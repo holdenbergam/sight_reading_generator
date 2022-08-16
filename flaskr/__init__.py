@@ -1,6 +1,9 @@
 import os
 from flask import Flask, render_template, request, url_for, flash, redirect
 from .processing import make_random_music
+from flask_caching import Cache
+import time
+
 # ...
 
 def create_app(test_config=None):
@@ -10,7 +13,10 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+        #CACHE_TYPE='SimpleCache'
     )
+
+    #cache = Cache(app)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -36,26 +42,26 @@ def create_app(test_config=None):
 
 
     @app.route('/result', methods=['GET', 'POST'])
+    #@cache.cached(timeout=20000)
     def shortenurl():
         if request.method == 'POST':
-            time = request.form['time']
+            time_ = request.form['time']
             key = request.form['key']
             instrument = request.form['instrument']
             measures = request.form['measures']
             level = request.form['level']
+            image_name = "image.pdf?" + str(time.time())
+            music_name = "music_output.mid?" + str(time.time())
 
-            make_random_music(time,key,measures,instrument,level,save_to='static/image.pdf')
+            make_random_music(time_,key,measures,instrument,level,save_to='static/image.pdf')
 
             #music = make_random_music(time, key, instrument)
             #image = make_image(music)
 
-            return render_template('result.html', time=time, key=key, measures=measures, instrument=instrument, level=level)
+            return render_template('result.html', time=time_, key=key, measures=measures, instrument=instrument, level=level, image_name=image_name, music_name=music_name)
         elif request.method == 'GET':
             return 'A GET request was made'
         else:
             return 'Not a valid request method for this route'
 
     return app
-
-
-

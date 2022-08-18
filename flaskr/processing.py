@@ -59,7 +59,9 @@ def create_range(instrument, key_signature, level):
     #Trumpet: C4-C5, A3-G5, A3-C5
     #Horn: bFlat3-bFlat4, A3-F5, G3-A5
     #Trombone: bFlat2-bFlat3, aFlat2-F4, G2-bFlat4
-    
+    #Bassoon: bFlat2-bFlat3, eFlat2-eFlat4, bFlat1-G4
+    #Tuba: bFlat1-bFlat2, G1-eFlat3, F1-G3
+
 
     base_range = {
         "1": {
@@ -103,7 +105,174 @@ def create_range(instrument, key_signature, level):
     }
 
 
-    range_extension = {
+    s = stream.Stream()
+    s.transpose(get_transposition[instrument])
+    range_ = base_range[level][instrument]
+    c = get_clef[instrument]
+    k = key.Key(key_signature).transpose(get_transposition[instrument])
+    return range_, c, k
+
+import music21
+def make_random_music(time_signature, key_signature, measures, instrument, level, save_to='im/image.pdf'):
+
+    range_,k,c = create_range(instrument, key_signature, level)
+
+    length = []
+    #whole =
+    #half = 2
+    #quarter = 1
+
+    totalcounter = 0.0
+    for i in range(int(measures)):
+        options = [4.0, 3.0, 2.0, 1.5, 1.0, 0.5, 1.0/3.0, 0.25]
+        time_signature_length = {
+            '4/4': 4.0,
+            '3/4': 3.0,
+            '2/4': 2.0
+        }
+
+        beatcounter = 0.0
+        while beatcounter < time_signature_length[time_signature]:
+            valid_options = []
+            for j in options:
+                if j <= time_signature_length[time_signature] - beatcounter:
+                    valid_options.append(j)
+            choice_ = random.choice(valid_options)
+            length.append(choice_)
+            beatcounter += float(choice_)
+            if choice_ == 1.5 or choice_ == 0.5 and beatcounter != 4.0:
+                length.append(0.5)
+                beatcounter += 0.5
+            elif choice_ == 0.25 and beatcounter != 4.0:
+                length.extend([0.25, 0.25, 0.25])
+                beatcounter += 0.75
+            elif choice_ == 1.0/3.0 and beatcounter != 4.0:
+                length.extend([1.0/3.0, 1.0/3.0])
+                beatcounter += 2.0/3.0
+            print(beatcounter)
+            print(options)
+
+        totalcounter+=beatcounter
+
+
+    set = []
+
+    if level == "1":
+        last_note_ix = random.randint(0, len(range_))
+        for i in range(len(length)):
+            rand_direction = random.randint(-4,4)
+            this_note_ix = last_note_ix + rand_direction
+
+            if this_note_ix > len(range_)-1:
+                this_note_ix = len(range_)-1
+            elif this_note_ix < 0:
+                this_note_ix = 0
+
+            next_note = range_[this_note_ix]
+            set.append([next_note, length[i]])
+            last_note_ix = this_note_ix
+    if level == "2":
+        last_note_ix = random.randint(0, len(range_))
+        for i in range(len(length)):
+            rand_direction = random.randint(-7,7)
+            this_note_ix = last_note_ix + rand_direction
+
+            if this_note_ix > len(range_)-1:
+                this_note_ix = len(range_)-1
+            elif this_note_ix < 0:
+                this_note_ix = 0
+
+            next_note = range_[this_note_ix]
+            set.append([next_note, length[i]])
+            last_note_ix = this_note_ix
+
+    print(set)
+
+    instrument_midi = {
+        "Flute": music21.instrument.Flute(),
+        "Piccolo": music21.instrument.Piccolo(),
+        "Oboe": music21.instrument.Oboe(),
+        "Clarinet": music21.instrument.Clarinet(),
+        "Alto Saxophone": music21.instrument.AltoSaxophone(),
+        "Tenor Saxophone": music21.instrument.TenorSaxophone(),
+        "Baritone Saxophone": music21.instrument.BaritoneSaxophone(),
+        "Trumpet": music21.instrument.Trumpet(),
+        "French Horn": music21.instrument.Horn(),
+        "Trombone": music21.instrument.Trombone(),
+        "Bassoon": music21.instrument.Bassoon(),
+        "Tuba": music21.instrument.Tuba(),
+        "Baritone B.C.": music21.instrument.Baritone(),
+        "Baritone T.C.": music21.instrument.Baritone(),
+        "Alto Clarinet": music21.instrument.EnglishHorn(),
+        "Bass Clarinet": music21.instrument.BassClarinet(),
+        "Contrabass Clarinet": music21.instrument.BassClarinet()
+    }
+
+    s = stream.Stream()
+    s.insert(0, metadata.Metadata())
+    s.metadata.title = instrument + ' Sample'
+    s.metadata.composer = ' '
+    d = duration.Duration()
+    ts = meter.TimeSignature(time_signature)
+    s.append(ts)
+    s.append(k)
+    s.append(c)
+    s.append(instrument_midi[instrument])
+    s.append(dynamics.Dynamic(random.choice(['pp', 'p', 'mp', 'mf', 'f', 'ff'])))
+
+    for i in set:
+        the_option = random.choice(['n', 'r'])
+        if the_option == 'n':
+            n = note.Note(i[0], quarterLength=float(i[1]))
+            acce = articulations.Accent()
+            stac = articulations.Staccato()
+            tenu = articulations.Tenuto()
+            whatdoinamethis = random.randint(1, 9)
+            if whatdoinamethis < 3:
+                n.articulations = [random.choice([acce, stac, tenu])]
+            else:
+                print("")
+            s.append(n)
+        elif the_option == 'r' and i[1] == 3.0 or i[1] == 1.5 or i[1] == 0.5 or i[1] == 1.0/3.0 or i[1] == 0.25:
+            n = note.Note(i[0], quarterLength=float(i[1]))
+            acce = articulations.Accent()
+            stac = articulations.Staccato()
+            tenu = articulations.Tenuto()
+            whatdoinamethis = random.randint(1, 9)
+            if whatdoinamethis < 3:
+                n.articulations = [random.choice([acce, stac, tenu])]
+            else:
+                print("")
+            s.append(n)
+            for no in s.notes:
+                the_the_option = random.choice(['der', 'duh', 'duh'])
+                if the_the_option == 'duh':
+                    no.pitch.accidental = no.getContextByClass(key.KeySignature).accidentalByStep(no.step)
+                else:
+                    continue
+        elif the_option == 'r' and i[1] == 4.0 or i[1] == 2.0 or i[1] == 1.0:
+            r = note.Rest(quarterLength=float(i[1]))
+            s.append(r)
+
+    s.write('musicxml.pdf', fp='flaskr/static/image.pdf')
+    s.write('midi', fp='flaskr/static/music_output.mid')
+
+    print('wrote new music!')
+
+
+'''from music21 import corpus'''
+from music21 import converter
+
+'''from midi2audio import FluidSynth'''
+
+
+def make_image(music):
+    return 0
+
+if __name__=='__main__':
+    print('Hello World')
+
+'''    range_extension = {
         "French Horn": {
             "1": {
                 "F": [],
@@ -617,164 +786,4 @@ def create_range(instrument, key_signature, level):
                 "F": ['F#3', 'F#4', 'F#5']
             }
         }
-    }
-    s = stream.Stream()
-    s.transpose(get_transposition[instrument])
-    range_ = base_range[level][instrument] #+ range_extension[instrument][level][key_signature]
-    c = get_clef[instrument]
-    k = key.Key(key_signature).transpose(get_transposition[instrument])
-    return range_, c, k
-
-import music21
-def make_random_music(time_signature, key_signature, measures, instrument, level, save_to='im/image.pdf'):
-
-    range_,k,c = create_range(instrument, key_signature, level)
-
-    length = []
-    #whole =
-    #half = 2
-    #quarter = 1
-
-    totalcounter = 0.0
-    for i in range(int(measures)):
-        options = [4.0, 3.0, 2.0, 1.5, 1.0, 0.5, 1.0/3.0, 0.25]
-        time_signature_length = {
-            '4/4': 4.0,
-            '3/4': 3.0,
-            '2/4': 2.0
-        }
-
-        beatcounter = 0.0
-        while beatcounter < time_signature_length[time_signature]:
-            valid_options = []
-            for j in options:
-                if j <= time_signature_length[time_signature] - beatcounter:
-                    valid_options.append(j)
-            choice_ = random.choice(valid_options)
-            length.append(choice_)
-            beatcounter += float(choice_)
-            if choice_ == 1.5 or choice_ == 0.5 and beatcounter != 4.0:
-                length.append(0.5)
-                beatcounter += 0.5
-            elif choice_ == 0.25 and beatcounter != 4.0:
-                length.extend([0.25, 0.25, 0.25])
-                beatcounter += 0.75
-            elif choice_ == 1.0/3.0 and beatcounter != 4.0:
-                length.extend([1.0/3.0, 1.0/3.0])
-                beatcounter += 2.0/3.0
-            print(beatcounter)
-            print(options)
-
-        totalcounter+=beatcounter
-
-
-    set = []
-
-    if level == "1":
-        last_note_ix = random.randint(0, len(range_))
-        for i in range(len(length)):
-            rand_direction = random.randint(-4,4)
-            this_note_ix = last_note_ix + rand_direction
-
-            if this_note_ix > len(range_)-1:
-                this_note_ix = len(range_)-1
-            elif this_note_ix < 0:
-                this_note_ix = 0
-
-            next_note = range_[this_note_ix]
-            set.append([next_note, length[i]])
-            last_note_ix = this_note_ix
-    if level == "2":
-        last_note_ix = random.randint(0, len(range_))
-        for i in range(len(length)):
-            rand_direction = random.randint(-7,7)
-            this_note_ix = last_note_ix + rand_direction
-
-            if this_note_ix > len(range_)-1:
-                this_note_ix = len(range_)-1
-            elif this_note_ix < 0:
-                this_note_ix = 0
-
-            next_note = range_[this_note_ix]
-            set.append([next_note, length[i]])
-            last_note_ix = this_note_ix
-
-    print(set)
-
-    instrument_midi = {
-        "Flute": music21.instrument.Flute(),
-        "Piccolo": music21.instrument.Piccolo(),
-        "Oboe": music21.instrument.Oboe(),
-        "Clarinet": music21.instrument.Clarinet(),
-        "Alto Saxophone": music21.instrument.AltoSaxophone(),
-        "Tenor Saxophone": music21.instrument.TenorSaxophone(),
-        "Baritone Saxophone": music21.instrument.BaritoneSaxophone(),
-        "Trumpet": music21.instrument.Trumpet(),
-        "French Horn": music21.instrument.Horn(),
-        "Trombone": music21.instrument.Trombone(),
-        "Bassoon": music21.instrument.Bassoon(),
-        "Tuba": music21.instrument.Tuba(),
-        "Baritone B.C.": music21.instrument.Baritone(),
-        "Baritone T.C.": music21.instrument.Baritone(),
-        "Alto Clarinet": music21.instrument.EnglishHorn(),
-        "Bass Clarinet": music21.instrument.BassClarinet(),
-        "Contrabass Clarinet": music21.instrument.BassClarinet()
-    }
-
-    s = stream.Stream()
-    s.insert(0, metadata.Metadata())
-    s.metadata.title = instrument + ' Sample'
-    s.metadata.composer = ' '
-    d = duration.Duration()
-    ts = meter.TimeSignature(time_signature)
-    s.append(ts)
-    s.append(k)
-    s.append(c)
-    s.append(instrument_midi[instrument])
-    s.append(dynamics.Dynamic(random.choice(['pp', 'p', 'mp', 'mf', 'f', 'ff'])))
-
-    for i in set:
-        the_option = random.choice(['n', 'r'])
-        if the_option == 'n':
-            n = note.Note(i[0], quarterLength=float(i[1]))
-            acce = articulations.Accent()
-            stac = articulations.Staccato()
-            tenu = articulations.Tenuto()
-            whatdoinamethis = random.randint(1, 9)
-            if whatdoinamethis < 3:
-                n.articulations = [random.choice([acce, stac, tenu])]
-            else:
-                print("")
-            s.append(n)
-        elif the_option == 'r' and i[1] == 3.0 or i[1] == 1.5 or i[1] == 0.5 or i[1] == 1.0/3.0 or i[1] == 0.25:
-            n = note.Note(i[0], quarterLength=float(i[1]))
-            acce = articulations.Accent()
-            stac = articulations.Staccato()
-            tenu = articulations.Tenuto()
-            whatdoinamethis = random.randint(1, 9)
-            if whatdoinamethis < 3:
-                n.articulations = [random.choice([acce, stac, tenu])]
-            else:
-                print("")
-            s.append(n)
-        elif the_option == 'r' and i[1] == 4.0 or i[1] == 2.0 or i[1] == 1.0:
-            r = note.Rest(quarterLength=float(i[1]))
-            s.append(r)
-
-    s.write('musicxml.pdf', fp='flaskr/static/image.pdf')
-    s.write('midi', fp='flaskr/static/music_output.mid')
-
-    print('wrote new music!')
-
-
-'''from music21 import corpus'''
-from music21 import converter
-
-'''from midi2audio import FluidSynth'''
-
-
-def make_image(music):
-    return 0
-
-if __name__=='__main__':
-    print('Hello World')
+    }'''

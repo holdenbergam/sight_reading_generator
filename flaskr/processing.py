@@ -3,7 +3,7 @@ import random
 #from myly import CreateMusicXML
 from music21 import *
 from IPython import embed
-
+import pickle
 import music21
 
 def note_to_midi(note):
@@ -50,34 +50,6 @@ def note_to_midi(note):
             the_sum += number_values[jey]
     return the_sum
 
-"""def midi_to_note(midi):
-    letter_values = {
-        "0": "C",
-        "1": "C#",
-        "1": "D-",
-        "2": "D",
-        "3": "D#",
-        "3": "E-",
-        "4": "E",
-        "4": "F-",
-        "5": "E#",
-        "5": "F",
-        "6": "F#",
-        "6": "G-",
-        "7": "G",
-        "8": "G#",
-        "8": "A-",
-        "9": "A",
-        "10": "A#",
-        "10": "B-",
-        "11": "B",
-        "0": "B#",
-        "11": "C-"
-    }
-
-    kaboom = midi % 12
-    also_kaboom = letter_values
-midi_to_note(52)"""
 
 def create_range(instrument, key_signature, level):
 
@@ -210,12 +182,16 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
 
     range_,k,c = create_range(instrument, key_signature, level)
 
+    new_range = []
+    for i in range_:
+        new_range.append(note_to_midi(i))
+        print(new_range)
     length = []
     #whole =
     #half = 2
     #quarter = 1
 
-    loaded_model = pickle.load(open('static/finalized_model.sav', 'rb'))
+    loaded_model = pickle.load(open('flaskr/static/finalized_model.sav', 'rb'))
 
     totalcounter = 0.0
     for i in range(int(measures)):
@@ -251,49 +227,48 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
 
         totalcounter+=beatcounter
 
-
     set = []
 
     if level == "1":
-        last_note_ix = random.randint(0, len(range_))
+        last_note_ix = random.randint(0, len(new_range))
         for i in range(len(length)):
             rand_direction = random.randint(-3,3)
             this_note_ix = last_note_ix + rand_direction
 
-            if this_note_ix > len(range_)-1:
-                this_note_ix = len(range_)-1
+            if this_note_ix > len(new_range)-1:
+                this_note_ix = len(new_range)-1
             elif this_note_ix < 0:
                 this_note_ix = 0
 
-            next_note = range_[this_note_ix]
+            next_note = new_range[this_note_ix]
             set.append([next_note, length[i]])
             last_note_ix = this_note_ix
     if level == "2":
-        last_note_ix = random.randint(0, len(range_))
+        last_note_ix = random.randint(0, len(new_range))
         for i in range(len(length)):
             rand_direction = random.randint(-5,5)
             this_note_ix = last_note_ix + rand_direction
 
-            if this_note_ix > len(range_)-1:
-                this_note_ix = len(range_)-1
+            if this_note_ix > len(new_range)-1:
+                this_note_ix = len(new_range)-1
             elif this_note_ix < 0:
                 this_note_ix = 0
 
-            next_note = range_[this_note_ix]
+            next_note = new_range[this_note_ix]
             set.append([next_note, length[i]])
             last_note_ix = this_note_ix
     if level == "3":
-        last_note_ix = random.randint(0, len(range_))
+        last_note_ix = random.randint(0, len(new_range))
         for i in range(len(length)):
             rand_direction = random.randint(-7,7)
             this_note_ix = last_note_ix + rand_direction
 
-            if this_note_ix > len(range_)-1:
-                this_note_ix = len(range_)-1
+            if this_note_ix > len(new_range)-1:
+                this_note_ix = len(new_range)-1
             elif this_note_ix < 0:
                 this_note_ix = 0
 
-            next_note = range_[this_note_ix]
+            next_note = new_range[this_note_ix]
             set.append([next_note, length[i]])
             last_note_ix = this_note_ix
 
@@ -383,7 +358,7 @@ def make_image(music):
 if __name__=='__main__':
     print('Hello World')
 
-'''    range_extension = {
+'''    new_rangeextension = {
         "French Horn": {
             "1": {
                 "F": [],

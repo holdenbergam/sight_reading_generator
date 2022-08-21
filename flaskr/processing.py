@@ -5,6 +5,9 @@ from music21 import *
 from IPython import embed
 import pickle
 import music21
+from sklearn.neural_network import *
+import numpy as np
+
 
 def note_to_midi(note):
     the_sum = 0
@@ -181,7 +184,6 @@ import music21
 def make_random_music(time_signature, key_signature, measures, instrument, level, save_to='im/image.pdf'):
 
     range_,k,c = create_range(instrument, key_signature, level)
-
     new_range = []
     for i in range_:
         new_range.append(note_to_midi(i))
@@ -226,52 +228,30 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
             print(options)
 
         totalcounter+=beatcounter
-
     set = []
 
-    if level == "1":
-        last_note_ix = random.randint(0, len(new_range))
-        for i in range(len(length)):
-            rand_direction = random.randint(-3,3)
-            this_note_ix = last_note_ix + rand_direction
 
-            if this_note_ix > len(new_range)-1:
-                this_note_ix = len(new_range)-1
-            elif this_note_ix < 0:
-                this_note_ix = 0
+    last_note_ix = random.randint(0, len(new_range))
+    for i in range(9):
+        rand_direction = random.randint(-3,3)
+        this_note_ix = last_note_ix + rand_direction
 
-            next_note = new_range[this_note_ix]
-            set.append([next_note, length[i]])
-            last_note_ix = this_note_ix
-    if level == "2":
-        last_note_ix = random.randint(0, len(new_range))
-        for i in range(len(length)):
-            rand_direction = random.randint(-5,5)
-            this_note_ix = last_note_ix + rand_direction
+        if this_note_ix > len(new_range)-1:
+            this_note_ix = len(new_range)-1
+        elif this_note_ix < 0:
+            this_note_ix = 0
 
-            if this_note_ix > len(new_range)-1:
-                this_note_ix = len(new_range)-1
-            elif this_note_ix < 0:
-                this_note_ix = 0
+        next_note = new_range[this_note_ix]
+        set.append([next_note, length[i]])
+        last_note_ix = this_note_ix
 
-            next_note = new_range[this_note_ix]
-            set.append([next_note, length[i]])
-            last_note_ix = this_note_ix
-    if level == "3":
-        last_note_ix = random.randint(0, len(new_range))
-        for i in range(len(length)):
-            rand_direction = random.randint(-7,7)
-            this_note_ix = last_note_ix + rand_direction
-
-            if this_note_ix > len(new_range)-1:
-                this_note_ix = len(new_range)-1
-            elif this_note_ix < 0:
-                this_note_ix = 0
-
-            next_note = new_range[this_note_ix]
-            set.append([next_note, length[i]])
-            last_note_ix = this_note_ix
-
+    for i in range(len(set)):
+        temp = loaded_model.predict_proba([[set[i][0], set[i+1][0], set[i+2][0]]])
+        prediction = np.argmax(temp[0][:-3])
+        prediction = loaded_model.predict([[set[i][0], set[i+1][0], set[i+2][0]]])
+        set.append([prediction, length[i+3]])
+        if len(set) == len(length):
+            break
     print(set)
 
     instrument_midi = {
@@ -873,3 +853,46 @@ if __name__=='__main__':
             }
         }
     }'''
+
+'''if level == "1":
+    last_note_ix = random.randint(0, len(new_range))
+    for i in range(len(length)):
+        rand_direction = random.randint(-3,3)
+        this_note_ix = last_note_ix + rand_direction
+
+        if this_note_ix > len(new_range)-1:
+            this_note_ix = len(new_range)-1
+        elif this_note_ix < 0:
+            this_note_ix = 0
+
+        next_note = new_range[this_note_ix]
+        set.append([next_note, length[i]])
+        last_note_ix = this_note_ix
+if level == "2":
+    last_note_ix = random.randint(0, len(new_range))
+    for i in range(len(length)):
+        rand_direction = random.randint(-5,5)
+        this_note_ix = last_note_ix + rand_direction
+
+        if this_note_ix > len(new_range)-1:
+            this_note_ix = len(new_range)-1
+        elif this_note_ix < 0:
+            this_note_ix = 0
+
+        next_note = new_range[this_note_ix]
+        set.append([next_note, length[i]])
+        last_note_ix = this_note_ix
+if level == "3":
+    last_note_ix = random.randint(0, len(new_range))
+    for i in range(len(length)):
+        rand_direction = random.randint(-7,7)
+        this_note_ix = last_note_ix + rand_direction
+
+        if this_note_ix > len(new_range)-1:
+            this_note_ix = len(new_range)-1
+        elif this_note_ix < 0:
+            this_note_ix = 0
+
+        next_note = new_range[this_note_ix]
+        set.append([next_note, length[i]])
+        last_note_ix = this_note_ix'''

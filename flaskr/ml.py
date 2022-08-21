@@ -73,7 +73,7 @@ def train_mode(data):
         for i in range(len(song)-3):
             X.append([song[i], song[i+1], song[i+2]])
             y.append([song[i+3]])
-    #embed()
+
 
     clf = MLPClassifier(hidden_layer_sizes=(5, 2))
     clf.fit(X, y)
@@ -83,8 +83,7 @@ def train_mode(data):
     #f.close
     return clf
 
-f = open('notes_data.json')
+f = open('flaskr/notes_data.json')
 data = json.load(f)
 clf = train_mode(data)
 print('SUCCESS')
-embed()

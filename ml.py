@@ -35,26 +35,26 @@ def streamToNoteArray(stream):
     df = df.sort_values(['pos','pitch'], ascending=[True, False]) # sort the dataframe properly
     df = df.drop_duplicates(subset=['pos']) # drop duplicate values
     # part 2, convert into a sequence of note events
-    output = np.zeros(total_length+1, dtype=np.int16) + np.int16(MELODY_NO_EVENT)  # set array full of no events by default.
+    output = np.zeros(total_length+1, dtype=np.int16) #+ np.int16(MELODY_NO_EVENT)  # set array full of no events by default.
     # Fill in the output list
     for i in range(total_length):
         if not df[df.pos==i].empty:
             n = df[df.pos==i].iloc[0] # pick the highest pitch at each semiquaver
             output[i] = n.pitch # set note on
-            output[i+n.dur] = MELODY_NOTE_OFF
+            #output[i+n.dur] = MELODY_NOTE_OFF
     return output
 
 '''counter = 0
 notes_dict = {}
-for foldername in tqdm(os.listdir('flaskr/static/musicset')):
-    for fname in os.listdir('flaskr/static/musicset/' + foldername):
-        full_path = 'flaskr/static/musicset/' + foldername + '/' + fname
+for foldername in tqdm(os.listdir('static/musicset')):
+    for fname in os.listdir('static/musicset/' + foldername):
+        full_path = 'static/musicset/' + foldername + '/' + fname
 
         mf = midi.MidiFile()
         mf.open(full_path)
         mf.read()
 
-        mf.close()
+        #mf.close()
         s = midi.translate.midiFileToStream(mf)
         notes_arr = streamToNoteArray(s)
 
@@ -62,7 +62,7 @@ for foldername in tqdm(os.listdir('flaskr/static/musicset')):
         counter += 1
 
 import json
-with open('notes_data.json', 'w') as fp:
+with open('notes_data5.json', 'w') as fp:
     json.dump(notes_dict, fp)'''
 
 def train_mode(data):
@@ -70,20 +70,21 @@ def train_mode(data):
     X = []
     y = []
     for song in songlist:
-        for i in range(len(song)-3):
-            X.append([song[i], song[i+1], song[i+2]])
-            y.append([song[i+3]])
+        song = [i for i in song if i != 0]
+        for i in range(len(song)-5):
+            X.append([song[i], song[i+1], song[i+2], song[i+3], song[i+4]])
+            y.append([song[i+5]])
 
 
-    clf = MLPClassifier(hidden_layer_sizes=(5, 2))
+    clf = MLPClassifier(hidden_layer_sizes=(4, 4, 4, 4, 4, 4, 4, 4))
     clf.fit(X, y)
     #print(clf)
-    file_name = 'finalized_model.sav'
+    file_name = 'finalized_model6.sav'
     pickle.dump(clf, open(file_name, 'wb'))
     #f.close
     return clf
 
-f = open('flaskr/notes_data.json')
+f = open('notes_data5.json')
 data = json.load(f)
 clf = train_mode(data)
 print('SUCCESS')

@@ -7,7 +7,6 @@ import music21
 from sklearn.neural_network import *
 import numpy as np
 
-
 def create_range(instrument, key_signature, level):
 
     get_clef = {
@@ -114,175 +113,181 @@ def create_range(instrument, key_signature, level):
     k = key.Key(key_signature).transpose(get_transposition[instrument])
     return range_, c, k
 
-def make_random_music(time_signature, key_signature, measures, instrument, level, save_to='im/image.pdf'):
-    range_,k,c = create_range(instrument, key_signature, level)
-    length = []
-    length1 = []
+def make_random_music(mode_, time_signature, key_signature, measures, instrument, level, save_to='im/image.pdf'):
+    if mode_ == "sightreading":
+        range_,k,c = create_range(instrument, key_signature, level)
+        length = []
+        length1 = []
 
-    loaded_model = pickle.load(open('flaskr/static/finalized_model6.sav', 'rb'))
+        loaded_model = pickle.load(open('flaskr/static/finalized_model6.sav', 'rb'))
 
-    if level == "1":
-        options = [4.0, 3.0, 2.0, 1.5, 1.0, 0.5]
-    elif level == "2":
-        options = [4.0, 3.0, 2.0, 1.5, 1.0, 0.5, 0.25]
-    elif level == "3":
-        options = [4.0, 3.0, 2.0, 1.5, 1.0, 0.5, 1.0/3.0, 0.25]
-    time_signature_length = {'6/4': 6.0, '5/4': 5.0, '4/4': 4.0, '3/4': 3.0, '2/4': 2.0}
-
-    for i in range(int(measures)):
-        beatcounter = 0.0
-        while beatcounter < time_signature_length[time_signature]:
-            valid_options = []
-            for j in options:
-                if j <= time_signature_length[time_signature] - beatcounter:
-                    valid_options.append(j)
-            choice_ = random.choice(valid_options)
-            length.append(choice_)
-
-            beatcounter += float(choice_)
-            if choice_ == 1.5 or choice_ == 0.5:
-                length.append(0.5)
-
-                beatcounter += 0.5
-            elif choice_ == 0.25:
-                length.extend([0.25, 0.25, 0.25])
-
-                beatcounter += 0.75
-            elif choice_ == 1.0/3.0:
-                length.extend([1.0/3.0, 1.0/3.0])
-
-                beatcounter += 2.0/3.0
-
-
-    set = []
-    set1 = []
-    last_note_ix = random.choice(range_)
-
-
-    for i in range(len(length)):
         if level == "1":
-            rand_direction = random.randint(-3,3)
+            options = [4.0, 3.0, 2.0, 1.5, 1.0, 0.5]
         elif level == "2":
-            rand_direction = random.randint(-5,5)
+            options = [4.0, 3.0, 2.0, 1.5, 1.0, 0.5, 0.25]
         elif level == "3":
-            rand_direction = random.randint(-7,7)
-        this_note_ix = int(last_note_ix) + rand_direction
+            options = [4.0, 3.0, 2.0, 1.5, 1.0, 0.5, 1.0/3.0, 0.25]
+        time_signature_length = {'6/4': 6.0, '5/4': 5.0, '4/4': 4.0, '3/4': 3.0, '2/4': 2.0}
+
+        for i in range(int(measures)):
+            beatcounter = 0.0
+            while beatcounter < time_signature_length[time_signature]:
+                valid_options = []
+                for j in options:
+                    if j <= time_signature_length[time_signature] - beatcounter:
+                        valid_options.append(j)
+                choice_ = random.choice(valid_options)
+                length.append(choice_)
+
+                beatcounter += float(choice_)
+                if choice_ == 1.5 or choice_ == 0.5:
+                    length.append(0.5)
+
+                    beatcounter += 0.5
+                elif choice_ == 0.25:
+                    length.extend([0.25, 0.25, 0.25])
+
+                    beatcounter += 0.75
+                elif choice_ == 1.0/3.0:
+                    length.extend([1.0/3.0, 1.0/3.0])
+
+                    beatcounter += 2.0/3.0
 
 
-        if this_note_ix > int(range_[-1]):
-            this_note_ix = int(range_[-1])
-        elif this_note_ix < int(range_[0]):
-            this_note_ix = int(range_[0])
+        set = []
+        set1 = []
+        last_note_ix = random.choice(range_)
 
 
-        next_note = this_note_ix
-
-        set.append([next_note, length[i]])
-
-        last_note_ix = this_note_ix
-
-
-
-
-    print(set)
-    print(set1)
-    instrument_midi = {
-        "Flute": music21.instrument.Flute(),
-        "Piccolo": music21.instrument.Piccolo(),
-        "Oboe": music21.instrument.Oboe(),
-        "Clarinet": music21.instrument.Clarinet(),
-        "Alto Saxophone": music21.instrument.AltoSaxophone(),
-        "Tenor Saxophone": music21.instrument.TenorSaxophone(),
-        "Baritone Saxophone": music21.instrument.BaritoneSaxophone(),
-        "Trumpet": music21.instrument.Trumpet(),
-        "French Horn": music21.instrument.Horn(),
-        "Trombone": music21.instrument.Trombone(),
-        "Bassoon": music21.instrument.Bassoon(),
-        "Tuba": music21.instrument.Tuba(),
-        "Baritone B.C.": music21.instrument.Baritone(),
-        "Baritone T.C.": music21.instrument.Baritone(),
-        "Alto Clarinet": music21.instrument.EnglishHorn(),
-        "Bass Clarinet": music21.instrument.BassClarinet(),
-    }
-
-    s = stream.Stream()
-    s.insert(0, metadata.Metadata())
-    s.metadata.title = instrument + ' Sample'
-    s.metadata.composer = ' '
-    d = duration.Duration()
-    ts = meter.TimeSignature(time_signature)
-    dynamic_choice = random.choice(['pp', 'p', 'mp', 'mf', 'f', 'ff'])
-    s.append(ts)
-    s.append(k)
-    s.append(c)
-    s.append(instrument_midi[instrument])
-    s.append(dynamics.Dynamic(dynamic_choice))
+        for i in range(len(length)):
+            if level == "1":
+                rand_direction = random.randint(-3,3)
+            elif level == "2":
+                rand_direction = random.randint(-5,5)
+            elif level == "3":
+                rand_direction = random.randint(-7,7)
+            this_note_ix = int(last_note_ix) + rand_direction
 
 
-    last_rhythm = 0.0
-    for i in set:
-        the_option = random.choice(['n', 'r'])
-        if the_option == 'n':
-            n = note.Note(i[0], quarterLength=float(i[1]))
-            acce = articulations.Accent()
-            stac = articulations.Staccato()
-            tenu = articulations.Tenuto()
-            chance_accent = random.randint(1, 9)
-            if chance_accent < 2:
-                n.articulations = [random.choice([acce, stac, tenu])]
-            else:
-                print("")
-            for no in s.notes:
-                no.pitch.accidental = no.getContextByClass(key.KeySignature).accidentalByStep(no.step)
-            s.append(n)
-            last_rhythm = i[1]
-        elif the_option == 'r' and i[1] == 3.0 or i[1] == 1.5 or i[1] == 0.5 or i[1] == 1.0/3.0 or i[1] == 0.25:
-            n = note.Note(i[0], quarterLength=float(i[1]))
-            acce = articulations.Accent()
-            stac = articulations.Staccato()
-            tenu = articulations.Tenuto()
-            chance_accent = random.randint(1, 9)
-            if chance_accent < 2:
-                n.articulations = [random.choice([acce, stac, tenu])]
-            else:
-                print("")
-            for no in s.notes:
-                no.pitch.accidental = no.getContextByClass(key.KeySignature).accidentalByStep(no.step)
-            s.append(n)
-            last_rhythm = i[1]
-        elif the_option == 'r' and last_rhythm == 0.25 or last_rhythm == 0.5 or last_rhythm == 1.0/3.0:
-            n = note.Note(i[0], quarterLength=float(i[1]))
-            acce = articulations.Accent()
-            stac = articulations.Staccato()
-            tenu = articulations.Tenuto()
-            chance_accent = random.randint(1, 9)
-            if chance_accent < 2:
-                n.articulations = [random.choice([acce, stac, tenu])]
-            else:
-                print("")
-            for no in s.notes:
-                no.pitch.accidental = no.getContextByClass(key.KeySignature).accidentalByStep(no.step)
-            s.append(n)
-            last_rhythm = i[1]
-        elif the_option == 'r' and i[1] == 4.0 or i[1] == 2.0 or i[1] == 1.0:
-            r = note.Rest(quarterLength=float(i[1]))
-            s.append(r)
-    last_rhythm = 0.0
-
-    s.write('musicxml.pdf', fp='flaskr/static/image.pdf')
-    s.write('midi', fp='flaskr/static/music_output.mid')
-
-    print('wrote new music!')
+            if this_note_ix > int(range_[-1]):
+                this_note_ix = int(range_[-1])
+            elif this_note_ix < int(range_[0]):
+                this_note_ix = int(range_[0])
 
 
-'''from music21 import corpus'''
-from music21 import converter
+            next_note = this_note_ix
 
-'''from midi2audio import FluidSynth'''
+            set.append([next_note, length[i]])
+
+            last_note_ix = this_note_ix
 
 
-def make_image(music):
-    return 0
+
+
+        print(set)
+        print(set1)
+        instrument_midi = {
+            "Flute": music21.instrument.Flute(),
+            "Piccolo": music21.instrument.Piccolo(),
+            "Oboe": music21.instrument.Oboe(),
+            "Clarinet": music21.instrument.Clarinet(),
+            "Alto Saxophone": music21.instrument.AltoSaxophone(),
+            "Tenor Saxophone": music21.instrument.TenorSaxophone(),
+            "Baritone Saxophone": music21.instrument.BaritoneSaxophone(),
+            "Trumpet": music21.instrument.Trumpet(),
+            "French Horn": music21.instrument.Horn(),
+            "Trombone": music21.instrument.Trombone(),
+            "Bassoon": music21.instrument.Bassoon(),
+            "Tuba": music21.instrument.Tuba(),
+            "Baritone B.C.": music21.instrument.Baritone(),
+            "Baritone T.C.": music21.instrument.Baritone(),
+            "Alto Clarinet": music21.instrument.EnglishHorn(),
+            "Bass Clarinet": music21.instrument.BassClarinet(),
+        }
+
+        s = stream.Stream()
+        s.insert(0, metadata.Metadata())
+        s.metadata.title = instrument + ' Sample'
+        s.metadata.composer = ' '
+        d = duration.Duration()
+        ts = meter.TimeSignature(time_signature)
+        dynamic_choice = random.choice(['pp', 'p', 'mp', 'mf', 'f', 'ff'])
+        s.append(ts)
+        s.append(k)
+        s.append(c)
+        s.append(instrument_midi[instrument])
+        s.append(dynamics.Dynamic(dynamic_choice))
+
+
+        last_rhythm = 0.0
+        for i in set:
+            the_option = random.choice(['n', 'r'])
+            if the_option == 'n':
+                n = note.Note(i[0], quarterLength=float(i[1]))
+                acce = articulations.Accent()
+                stac = articulations.Staccato()
+                tenu = articulations.Tenuto()
+                chance_accent = random.randint(1, 9)
+                if chance_accent < 2:
+                    n.articulations = [random.choice([acce, stac, tenu])]
+                else:
+                    print("")
+                for no in s.notes:
+                    no.pitch.accidental = no.getContextByClass(key.KeySignature).accidentalByStep(no.step)
+                s.append(n)
+                last_rhythm = i[1]
+            elif the_option == 'r' and i[1] == 3.0 or i[1] == 1.5 or i[1] == 0.5 or i[1] == 1.0/3.0 or i[1] == 0.25:
+                n = note.Note(i[0], quarterLength=float(i[1]))
+                acce = articulations.Accent()
+                stac = articulations.Staccato()
+                tenu = articulations.Tenuto()
+                chance_accent = random.randint(1, 9)
+                if chance_accent < 2:
+                    n.articulations = [random.choice([acce, stac, tenu])]
+                else:
+                    print("")
+                for no in s.notes:
+                    no.pitch.accidental = no.getContextByClass(key.KeySignature).accidentalByStep(no.step)
+                s.append(n)
+                last_rhythm = i[1]
+            elif the_option == 'r' and last_rhythm == 0.25 or last_rhythm == 0.5 or last_rhythm == 1.0/3.0:
+                n = note.Note(i[0], quarterLength=float(i[1]))
+                acce = articulations.Accent()
+                stac = articulations.Staccato()
+                tenu = articulations.Tenuto()
+                chance_accent = random.randint(1, 9)
+                if chance_accent < 2:
+                    n.articulations = [random.choice([acce, stac, tenu])]
+                else:
+                    print("")
+                for no in s.notes:
+                    no.pitch.accidental = no.getContextByClass(key.KeySignature).accidentalByStep(no.step)
+                s.append(n)
+                last_rhythm = i[1]
+            elif the_option == 'r' and i[1] == 4.0 or i[1] == 2.0 or i[1] == 1.0:
+                r = note.Rest(quarterLength=float(i[1]))
+                s.append(r)
+        last_rhythm = 0.0
+
+        s.write('musicxml.pdf', fp='flaskr/static/image.pdf')
+        s.write('midi', fp='flaskr/static/music_output.mid')
+
+        print('wrote new music!')
+
+
+        '''from music21 import corpus'''
+        from music21 import converter
+
+        '''from midi2audio import FluidSynth'''
+
+
+        def make_image(music):
+            return 0
+
+def music_library():
+    src = corpus.parse('bach/bwv323.xml')
+    soprano = src.getElementById('Soprano').recurse().notesAndRests.stream()
+    soprano.write('musicxml.pdf', fp='flaskr/static/imageone.pdf')
 
 if __name__=='__main__':
     print('Hello World')

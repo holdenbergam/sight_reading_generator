@@ -113,8 +113,17 @@ def create_range(instrument, key_signature, level):
     k = key.Key(key_signature).transpose(get_transposition[instrument])
     return range_, c, k
 
-def make_random_music(mode_, time_signature, key_signature, measures, instrument, level, save_to='im/image.pdf'):
-    if mode_ == "sightreading":
+
+"""
+time signature (string): '3/4'
+key_signature (string): 'Bb'
+measures (string): e.g. '64'
+instrument (string): 'French Horn'
+level (string): 1,2, or 3
+example:
+make_random_music('3/4', 'Bb', '64', 'French Horn', '1')
+"""
+def make_random_music(time_signature, key_signature, measures, instrument, level, save_to='im/image.pdf'):
         range_,k,c = create_range(instrument, key_signature, level)
         length = []
         length1 = []
@@ -153,13 +162,13 @@ def make_random_music(mode_, time_signature, key_signature, measures, instrument
 
                     beatcounter += 2.0/3.0
 
-
+        #embed()
         set = []
         set1 = []
         last_note_ix = random.choice(range_)
 
 
-        for i in range(len(length)):
+        '''for i in range(len(length)):
             if level == "1":
                 rand_direction = random.randint(-3,3)
             elif level == "2":
@@ -179,9 +188,53 @@ def make_random_music(mode_, time_signature, key_signature, measures, instrument
 
             set.append([next_note, length[i]])
 
-            last_note_ix = this_note_ix
+            last_note_ix = this_note_ix'''
 
 
+        for i in range(5):
+                if level == "1":
+                    rand_direction = random.randint(-3,3)
+                elif level == "2":
+                    rand_direction = random.randint(-5,5)
+                elif level == "3":
+                    rand_direction = random.randint(-7,7)
+                this_note_ix = int(last_note_ix) + rand_direction
+
+                if this_note_ix > int(range_[-1]):
+                    this_note_ix = int(range_[-1])
+                elif this_note_ix < int(range_[0]):
+                    this_note_ix = int(range_[0])
+
+                next_note = this_note_ix
+                set.append([next_note, length[i]])
+                last_note_ix = this_note_ix
+        prediction = loaded_model.predict([[set[0][0], set[1][0], set[2][0], set[3][0], set[4][0]]])
+        set.append([prediction[0], length[5]])
+
+        #embed()
+        #for i in range(len(length)-8):
+        m = 4
+        while len(set) != len(length):
+            #embed()
+            probs = loaded_model.predict_proba([[set[m-4][0], set[m-3][0], set[m-2][0], set[m-1][0], set[m][0]]])[0]
+            #prediction = np.argmax(temp[0])
+            elements = [22 + i for i in range(len(probs))]
+            note_range = [last_note_ix-7, last_note_ix+7]
+
+            elements = elements[note_range[0]-22:note_range[1]-22]
+            probs = probs[note_range[0]-22:note_range[1]-22]
+            probs /= sum(probs)
+
+            prediction = np.random.choice(elements, 1, p=probs)[0]
+
+            #embed()
+            #prediction = loaded_model.predict([[set[m-4][0], set[m-3][0], set[m-2][0], set[m-1][0], set[m][0]]])
+            set.append([prediction, length[m+1]])
+            last_note_ix = prediction
+            m += 1
+            #embed()
+            #if len(set) == len(length):
+                #break
 
 
         print(set)
@@ -272,8 +325,10 @@ def make_random_music(mode_, time_signature, key_signature, measures, instrument
         s.write('musicxml.pdf', fp='flaskr/static/image.pdf')
         s.write('midi', fp='flaskr/static/music_output.mid')
 
-        print('wrote new music!')
+        paths = corpus.getComposer('bach')
+        print(paths)
 
+        print('wrote new music!')
 
         '''from music21 import corpus'''
         from music21 import converter
@@ -284,13 +339,14 @@ def make_random_music(mode_, time_signature, key_signature, measures, instrument
         def make_image(music):
             return 0
 
-def music_library():
-    src = corpus.parse('bach/bwv323.xml')
-    soprano = src.getElementById('Soprano').recurse().notesAndRests.stream()
-    soprano.write('musicxml.pdf', fp='flaskr/static/imageone.pdf')
+#def make_composer_music(songname):
+    #return songname
 
 if __name__=='__main__':
     print('Hello World')
+    make_random_music('3/4', 'Bb', '64', 'French Horn', '1')
+
+
 
 '''    range_extension = {
         "French Horn": {
@@ -807,39 +863,3 @@ if __name__=='__main__':
             }
         }
     }'''
-
-'''for i in range(5):
-        if level == "1":
-            rand_direction = random.randint(-3,3)
-        elif level == "2":
-            rand_direction = random.randint(-5,5)
-        elif level == "3":
-            rand_direction = random.randint(-7,7)
-        this_note_ix = int(last_note_ix) + rand_direction
-
-        if this_note_ix > int(range_[-1]):
-            this_note_ix = int(range_[-1])
-        elif this_note_ix < int(range_[0]):
-            this_note_ix = int(range_[0])
-
-        next_note = this_note_ix
-        set.append([next_note, length[i]])
-        last_note_ix = this_note_ix
-prediction = loaded_model.predict([[set[0][0], set[1][0], set[2][0], set[3][0], set[4][0]]])
-set.append([prediction[0], length[5]])
-
-
-#for i in range(len(length)-8):
-m = 4
-while len(set) != len(length):
-    #embed()
-    #temp = loaded_model.predict_proba([[set[i][0], set[i+1][0], set[i+2][0], set[i+3][0], set[i+4]]])
-    #prediction = np.argmax(temp[0])
-    #embed()
-    prediction = loaded_model.predict([[set[m-4][0], set[m-3][0], set[m-2][0], set[m-1][0], set[m][0]]])
-    set.append([prediction[0], length[m+1]])
-    last_note_ix = prediction
-    m += 1
-    #if len(set) == len(length):
-        #break
-        '''

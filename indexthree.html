@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<link href='https://fonts.googleapis.com/css?family=Spectral' rel='stylesheet'>
+<style>
+
+h1 {
+  font-family: "Spectral";
+}
+form {
+  font-family: "Spectral";
+  width: 100%;
+  color: black;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit] {
+float: center;
+width: 20%;
+background-color: #4CAF50;
+color: white;
+padding: 14px 20px;
+margin: 8px 0;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+
+input[type=submit]:hover {
+background-color: #45a049;
+}
+
+</style>
+<body>
+  <center>
+  <form action="resulttwo" method="post">
+
+    <label for="composer">Select an instrument</label>
+    <select id="composer" name="composer">
+    <option value="airdsairs">Aird's Airs</option>
+    <option value="bach">Johann Sebastian Bach</option>
+    <option value="beach">Amy Beach</option>
+    <option value="beeth">Ludwig Van Beethoven</option>
+    <option value="chopin">Frederich Chopin</option>
+    <option value="ciconia">Johannes Ciconia</option>
+    <option value="corelli">Arcangelo Corelli</option>
+    <option value="cpebach">Carl Philipp Emanuel Bach</option>
+    <option value="essen">Essen Folksong Collection</option>
+    <option value="handel">George Frideric Handel</option>
+    <option value="haydn">Joseph Haydn</option>
+    <option value="joplin">Scott Joplin</option>
+    <option value="prez">Josquin des Prez</option>
+    <option value="misc">Miscellaneous Folk</option>
+    <option value="monteverdi">Claudio Monteverdi</option>
+    <option value="mozart">Wolfgang Amadeus Mozart</option>
+    <option value="onellis">Oneill's 1850 Collection</option>
+    <option value="palestrina">Giovanni Palestrina</option>
+    <option value="mammoth">Ryan's Mammoth Collection</option>
+    <option value="schoenberg">Arnold Schoenberg</option>
+    <option value="schubert">Franz Schubert</option>
+    <option value="rschumann">Robert Schumann</option>
+    <option value="cschumann">Clara Schumann</option>
+    <option value="theory">Theory Exercises</option>
+    <option value="italian">Fourteenth-Century Italian Music</option>
+    <option value="verdi">Giuseppe Verdi</option>
+    <option value="weber">Carl Maria von Weber</option>
+    </select>
+
+    <br><br>
+
+
+  <input type="submit" value="Submit">
+  </form>
+  </center>
+</body>
+</html>
+
+'''@app.route('/indextwo', methods=['GET', 'POST'])
+def noahisfat():
+    if request.method == 'POST':
+        mode_ = request.form['mode']
+        if mode_ == "sightreading":
+            return render_template('indextwo.html')
+        elif mode_ == "musiclibrary":
+            return render_template('resulttwo.html')
+
+    elif request.method == 'GET':
+        return 'A GET request was made'
+    else:
+        return 'Not a valid request method for this route''''

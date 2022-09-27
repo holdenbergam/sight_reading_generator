@@ -1,8 +1,3 @@
-## TODO: process the dataset using pandas or something
-
-## TODO: train and save the model (THIS IS WHERE THE EXPERIMENTATION HAPPENS)
-
-## TODO: function for executing model to create new music
 import pickle
 import os
 from music21 import *
@@ -44,26 +39,24 @@ def streamToNoteArray(stream):
             #output[i+n.dur] = MELODY_NOTE_OFF
     return output
 
-'''counter = 0
-notes_dict = {}
-for foldername in tqdm(os.listdir('static/musicset')):
-    for fname in os.listdir('static/musicset/' + foldername):
-        full_path = 'static/musicset/' + foldername + '/' + fname
 
-        mf = midi.MidiFile()
-        mf.open(full_path)
-        mf.read()
-
-        #mf.close()
-        s = midi.translate.midiFileToStream(mf)
-        notes_arr = streamToNoteArray(s)
-
-        notes_dict[fname] = notes_arr.tolist()
-        counter += 1
-
-import json
-with open('notes_data5.json', 'w') as fp:
-    json.dump(notes_dict, fp)'''
+'''for i in range(len(composers)):
+    counter = 0
+    notes_dict = {}
+    for foldername in tqdm(os.listdir('static/musicset')):
+        for fname in os.listdir('static/musicset/' + foldername):
+            full_path = 'static/musicset/' + foldername + '/' + fname
+            mf = midi.MidiFile()
+            mf.open(full_path)
+            mf.read()
+            #mf.close()
+            s = midi.translate.midiFileToStream(mf)
+            notes_arr = streamToNoteArray(s)
+            notes_dict[fname] = notes_arr.tolist()
+            counter += 1
+    import json
+    with open('notes_data5.json', 'w') as fp:
+        json.dump(notes_dict, fp)'''
 
 def train_mode(data):
     songlist = list(data.values())
@@ -79,7 +72,7 @@ def train_mode(data):
     clf = MLPClassifier(hidden_layer_sizes=(4, 4, 4, 4, 4, 4, 4, 4))
     clf.fit(X, y)
     #print(clf)
-    file_name = 'finalized_model6.sav'
+    file_name = 'finalized_model10.sav'
     pickle.dump(clf, open(file_name, 'wb'))
     #f.close
     return clf

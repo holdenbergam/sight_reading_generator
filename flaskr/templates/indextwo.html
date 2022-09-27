@@ -1,0 +1,131 @@
+<html>
+  <link href='https://fonts.googleapis.com/css?family=Spectral' rel='stylesheet'>
+  <style>
+
+  h1 {
+    font-family: "Spectral";
+  }
+  form {
+    font-family: "Spectral";
+    width: 100%;
+    color: black;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  input[type=submit] {
+  float: center;
+  width: 20%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  }
+
+  input[type=submit]:hover {
+  background-color: #45a049;
+  }
+
+  </style>
+    <head>
+        <title>Holden's Auto Sight-Reading Generator</title>
+    </head>
+    <body>
+        <h1><center>Holden's Auto Sight-Reading Generator</center></h1>
+
+<script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
+        <center>
+
+          <form action="result" method="post">
+
+            <label for="instrument">Select an instrument</label>
+            <select id="instrument" name="instrument">
+            <option value="Flute">Flute</option>
+            <option value="Piccolo">Piccolo</option>
+            <option value="Oboe">Oboe</option>
+            <option value="Clarinet">Clarinet</option>
+            <option value="Alto Saxophone">Alto Saxophone</option>
+            <option value="Tenor Saxophone">Tenor Saxophone</option>
+            <option value="Baritone Saxophone">Baritone Saxophone</option>
+            <option value="Trumpet">Trumpet</option>
+            <option value="French Horn">French Horn</option>
+            <option value="Trombone">Trombone</option>
+            <option value="Bassoon">Bassoon</option>
+            <option value="Tuba">Tuba</option>
+            <option value="Baritone B.C.">Baritone B.C.</option>
+            <option value="Baritone T.C.">Baritone T.C.</option>
+            <option value="Alto Clarinet">Alto Clarinet</option>
+            <option value="Bass Clarinet">Bass Clarinet</option>
+            </select>
+
+            <br><br>
+
+          <form action="/action_page.php">
+            <label for="time">Select a time signature</label>
+            <select id="time" name="time">
+            <option value="4/4">4/4</option>
+            <option value="3/4">3/4</option>
+            <option value="2/4">2/4</option>
+            <option value="6/4">6/4</option>
+            <option value="5/4">5/4</option>
+            </select>
+
+            <br><br>
+
+            <form action="/action_page.php">
+              <label for="level">Select a level</label>
+              <select id="level" name="level">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              </select>
+
+              <br><br>
+
+          <form action="/action_page.php">
+            <label for="key">Select a CONCERT key signature</label>
+            <select id="key" name="key">
+            <option value="bFlat">B flat major</option>
+            <option value="eFlat">E flat major</option>
+            <option value="aFlat">A flat major</option>
+            <option value="dFlat">D flat major</option>
+            <option value="gFlat">G flat major</option>
+            <option value="cFlat">C flat major</option>
+            <option value="E">E major</option>
+            <option value="A">A major</option>
+            <option value="D">D major</option>
+            <option value="G">G major</option>
+            <option value="C">C major</option>
+            <option value="F">F major</option>
+
+            </select>
+
+            <br><br>
+
+
+
+          <form action="/action_page.php">
+            <label for="measures">Select a number of measures to generate</label>
+            <select id="measures" name="measures">
+            <option value="4">4</option>
+            <option value="8">8</option>
+            <option value="16">16</option>
+            <option value="32">32</option>
+            <option value="64">64</option>
+          </select>
+            <br><br>
+
+
+          <input type="submit" value="Submit">
+        </form>
+
+        </center>
+
+        </body>
+</html>

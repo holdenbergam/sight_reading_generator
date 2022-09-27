@@ -36,6 +36,14 @@ def create_app(test_config=None):
     def home():
         return render_template('index.html')
 
+    @app.route('/indextwo', methods=['GET', 'POST'])
+    def shortenotherurl():
+        if request.method == 'POST':
+            mode_ = request.form['mode']
+            if mode_ == "sightreading":
+                return render_template('indextwo.html')
+            elif mode_ == "musicquiz":
+                return render_template('resulttwo.html')
 
     @app.route('/result', methods=['GET', 'POST'])
     def shortenurl():
@@ -48,7 +56,7 @@ def create_app(test_config=None):
             image_name = "image.pdf?" + str(time.time())
             music_name = "music_output.mid?" + str(time.time())
 
-            make_random_music(time_,key,measures,instrument,level,save_to='static/image.pdf')
+            make_random_music(time_,key,measures,instrument,level, save_to='static/image.pdf')
             return render_template('result.html', time=time_, key=key, measures=measures, instrument=instrument, level=level, image_name=image_name, music_name=music_name)
         elif request.method == 'GET':
             return 'A GET request was made'

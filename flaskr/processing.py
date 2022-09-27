@@ -213,25 +213,38 @@ def make_random_music(time_signature, key_signature, measures, instrument, level
 
         #embed()
         #for i in range(len(length)-8):
-        m = 4
-        while len(set) != len(length):
+        direction_dict = {
+            "1": 3,
+            "2": 5,
+            "3": 7
+        }
+        range_as_ints = [int(x) for x in range_]
+        top_range = last_note_ix+direction_dict[level]
+        bottom_range = last_note_ix-direction_dict[level]
+        if top_range > range_as_ints[-1]:
+            top_range  = range_as_ints[-1]
+        elif bottom_range < range_as_ints[0]:
+            bottom_range = range_as_ints[0]
+
+        note_range = [ bottom_range  , top_range  ]
+        for i in range(len(length)-6):
             #embed()
-            probs = loaded_model.predict_proba([[set[m-4][0], set[m-3][0], set[m-2][0], set[m-1][0], set[m][0]]])[0]
+            probs = loaded_model.predict_proba([[set[i+1][0], set[i+2][0], set[i+3][0], set[i+4][0], set[i+5][0]]])[0]
             #prediction = np.argmax(temp[0])
             elements = [22 + i for i in range(len(probs))]
-            note_range = [last_note_ix-7, last_note_ix+7]
+            #note_range = [last_note_ix-7, last_note_ix+7]
 
             elements = elements[note_range[0]-22:note_range[1]-22]
             probs = probs[note_range[0]-22:note_range[1]-22]
             probs /= sum(probs)
 
-            prediction = np.random.choice(elements, 1, p=probs)[0]
-
             #embed()
+            prediction = np.random.choice(elements, 1, p=probs)[0]
+            #if int(prediction) > int(range_)[-1]:
             #prediction = loaded_model.predict([[set[m-4][0], set[m-3][0], set[m-2][0], set[m-1][0], set[m][0]]])
-            set.append([prediction, length[m+1]])
-            last_note_ix = prediction
-            m += 1
+            set.append([prediction, length[i+6]])
+            last_note_ix = int(prediction)
+            #m += 1
             #embed()
             #if len(set) == len(length):
                 #break

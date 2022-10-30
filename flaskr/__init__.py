@@ -42,8 +42,6 @@ def create_app(test_config=None):
             mode_ = request.form['mode']
             if mode_ == "sightreading":
                 return render_template('indextwo.html')
-            elif mode_ == "musicquiz":
-                return render_template('resulttwo.html')
 
     @app.route('/result', methods=['GET', 'POST'])
     def shortenurl():

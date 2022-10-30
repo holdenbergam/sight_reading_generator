@@ -11,12 +11,7 @@ from IPython import embed
 MELODY_NOTE_OFF = 128 # (stop playing all previous notes)
 MELODY_NO_EVENT = 129 # (no change from previous event)
 def streamToNoteArray(stream):
-    """
-    Convert a Music21 sequence to a numpy array of int8s into Melody-RNN format:
-        0-127 - note on at specified pitch
-        128   - note off
-        129   - no event
-    """
+
     # Part one, extract from stream
     total_length = np.int(np.round(stream.flat.highestTime / 0.25)) # in semiquavers
     stream_list = []
@@ -36,7 +31,6 @@ def streamToNoteArray(stream):
         if not df[df.pos==i].empty:
             n = df[df.pos==i].iloc[0] # pick the highest pitch at each semiquaver
             output[i] = n.pitch # set note on
-            #output[i+n.dur] = MELODY_NOTE_OFF
     return output
 
 
@@ -71,10 +65,10 @@ def train_mode(data):
 
     clf = MLPClassifier(hidden_layer_sizes=(4, 4, 4, 4, 4, 4, 4, 4))
     clf.fit(X, y)
-    #print(clf)
+
     file_name = 'finalized_model10.sav'
     pickle.dump(clf, open(file_name, 'wb'))
-    #f.close
+
     return clf
 
 f = open('notes_data5.json')
